@@ -1,0 +1,89 @@
+/*
+Theme Name: Woozzee
+
+Author: Webnauts
+Author URI: https://webnauts.pro/
+
+Description: Thema Wordpress for "Woozzee" shop
+
+Text Domain: woozzee
+
+Version: 1.0
+
+*/
+
+@import "assets/css/style.min.css";
+
+/* Контакт-форма */
+
+#wpcf7-f70-o1 {
+  position: relative;
+}
+
+#wpcf7-f70-o1 .callback-form__wrapper {
+  position: relative;
+  
+  align-items: stretch;
+}
+
+#wpcf7-f70-o1 .callback-form__wrapper .wpcf7-form-control-wrap.phone {
+  display: flex;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+#wpcf7-f70-o1 .callback-form__wrapper .wpcf7-form-control-wrap.phone .wpcf7-not-valid-tip {
+  position: absolute;
+  
+  top: calc(100% + 8px);
+  left: 0;
+  
+  font-size: 0.6em;
+  line-height: 100%;
+}
+
+#wpcf7-f70-o1 .wpcf7-response-output {
+  position: absolute;
+  
+  top: 100%;
+  left: 0;
+  
+  max-width: 450px;
+}
+
+/* Другой контейнер */
+
+.page-main__wrapper--another {
+  width: 1146px;
+  max-width: calc(100% - 20px);
+  
+  margin-left: auto;
+  margin-right: auto;
+  
+  padding-top: 61px;
+  padding-bottom: 100px;
+}
+
+@media (min-width: 768px) {
+  .page-main__wrapper--another {
+    max-width: calc(100% - 40px);
+    
+    padding-top: 89px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .page-main__wrapper--another {
+    max-width: calc(100% - 36px);
+    
+    padding-top: 130px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .page-main__wrapper--another {
+    max-width: calc(100% - 54px);
+    
+    padding-top: 155px;    
+  }
+}
