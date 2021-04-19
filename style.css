@@ -16,7 +16,9 @@ Version: 1.0
 
 /* Контакт-форма */
 
-#wpcf7-f70-o1 {
+#wpcf7-f70-o1,
+#wpcf7-f448-o2,
+#wpcf7-f448-o2 .wpcf7-form-control-wrap {
   position: relative;
 }
 
@@ -32,23 +34,96 @@ Version: 1.0
   align-items: stretch;
 }
 
-#wpcf7-f70-o1 .callback-form__wrapper .wpcf7-form-control-wrap.phone .wpcf7-not-valid-tip {
+#wpcf7-f70-o1 .callback-form__wrapper .wpcf7-form-control-wrap.phone .wpcf7-not-valid-tip,
+#wpcf7-f448-o2 .wpcf7-not-valid-tip {
   position: absolute;
-  
-  top: calc(100% + 8px);
+    
   left: 0;
   
   font-size: 0.6em;
   line-height: 100%;
 }
 
+#wpcf7-f70-o1 .callback-form__wrapper .wpcf7-form-control-wrap.phone .wpcf7-not-valid-tip {
+  top: calc(100% + 8px);
+}
+
+#wpcf7-f448-o2 .wpcf7-not-valid-tip {
+  top: calc(100% - 12px);
+}
+
 #wpcf7-f70-o1 .wpcf7-response-output {
   position: absolute;
   
-  top: 100%;
+  top: 100%;   
   left: 0;
   
   max-width: 450px;
+}
+
+#wpcf7-f448-o2 .wpcf7-response-output {    
+  width: 100%;
+  
+  margin: 0;
+}
+
+#wpcf7-f448-o2 .wpcf7-form-control-wrap.name-1,
+#wpcf7-f448-o2 .wpcf7-form-control-wrap.email,
+#wpcf7-f448-o2 .wpcf7-form-control-wrap.tel,
+#wpcf7-f448-o2 .wpcf7-form-control-wrap.message {
+  display: flex;
+  
+  justify-content: center;
+  align-items: center;
+}
+
+#wpcf7-f448-o2 .wpcf7-form-control-wrap.name-1 .contact-section__input:nth-child(odd),
+#wpcf7-f448-o2 .wpcf7-form-control-wrap.email .contact-section__input:nth-child(odd),
+#wpcf7-f448-o2 .wpcf7-form-control-wrap.tel .contact-section__input:nth-child(odd),
+#wpcf7-f448-o2 .wpcf7-form-control-wrap.message .contact-section__input:nth-child(odd) {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  #wpcf7-f448-o2 .wpcf7-form-control-wrap:nth-child(odd) {
+    width: 206px;
+  }
+  
+  #wpcf7-f448-o2 .wpcf7-form-control-wrap.message{
+    max-width: 100%;
+    width: 100%;
+  }
+  
+  #wpcf7-f448-o2 .wpcf7-response-output {  
+    position: absolute;
+    
+    top: 100%;   
+    left: 0;
+    
+    margin-top: 60px;
+    
+    width: 100%;
+  }
+}
+
+@media (min-width: 1024px) {
+  #wpcf7-f448-o2 .wpcf7-form-control-wrap:nth-child(odd) {
+    width: 232px;
+  }
+}
+
+@media (min-width: 1200px) {
+  #wpcf7-f448-o2 .wpcf7-form-control-wrap {
+    width: 264px;
+  }
+  
+  #wpcf7-f448-o2 .wpcf7-form-control-wrap:nth-child(odd) {
+    width: 264px;
+  }
+  
+  #wpcf7-f448-o2 .wpcf7-form-control-wrap.message{
+    width: 264px;
+  }
 }
 
 /* Другой контейнер */
@@ -86,4 +161,138 @@ Version: 1.0
     
     padding-top: 155px;    
   }
+}
+
+/* Таймер */
+
+.discount-section__countdown--timer {
+  max-width: 400px;
+}
+  
+@media (min-width: 768px) {
+  .discount-section__countdown--timer::before {
+    top: 1px;
+    right: 0.5px;
+    
+    transform: translateY(-100%) rotate(270deg);
+  }  
+  
+  .discount-section__countdown--timer::after {
+    bottom: -0.5px;
+    left: 0;
+    
+    transform: translateX(-100%) rotate(-90deg);
+  } 
+  
+  .discount-section__countdown-text--timer {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .discount-section__countdown--timer {
+    position: relative;
+    
+    width: 400px;
+  }
+}
+
+
+.clock,
+.clock__item,
+.clock__time {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex
+}
+
+.clock p {
+  padding: 0;
+  margin: 0;
+}
+
+.clock {
+  justify-content: space-between;
+  align-items: center;
+  
+  width: 100%;
+  
+  padding: 0;
+  margin: 0;
+  
+  padding-left: 20px;
+  padding-right: 20px;
+  
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 36px;
+  line-height: 45px;
+  /* or 125% */
+
+  text-align: center;
+
+  /* Малина */
+
+  color: #FF4557;
+
+  /* тень1 */
+
+  text-shadow: 0px 38px 80px rgba(191, 191, 191, 0.07), 0px 24.6296px 46.8519px rgba(131, 131, 131, 0.0531481), 0px 14.637px 25.4815px rgba(0, 0, 0, 0.0425185), 0px 7.6px 13px rgba(0, 0, 0, 0.035), 0px 3.0963px 6.51852px rgba(0, 0, 0, 0.0274815), 0px 0.703704px 3.14815px rgba(0, 0, 0, 0.0168519);
+}
+
+.clock__item {
+  width: 20%;
+}
+
+
+@media (min-width: 768px) {
+  .clock {
+    font-weight: 800;
+    font-size: 36px;
+    line-height: 100%;
+    /* or 125% */
+
+    text-align: center;
+
+    /* Виноград */
+
+    color: #2230A8;
+
+    /* тень1 */
+
+    text-shadow: 0px 38px 80px rgba(191, 191, 191, 0.07), 0px 24.6296px 46.8519px rgba(131, 131, 131, 0.0531481), 0px 14.637px 25.4815px rgba(0, 0, 0, 0.0425185), 0px 7.6px 13px rgba(0, 0, 0, 0.035), 0px 3.0963px 6.51852px rgba(0, 0, 0, 0.0274815), 0px 0.703704px 3.14815px rgba(0, 0, 0, 0.0168519);
+  }
+}
+
+@media (min-width: 1024px) {
+  .clock {
+    font-weight: 800;
+    font-size: 64px;
+    line-height: 100%;
+    /* or 70% */
+
+    text-align: center;
+
+    /* Виноград */
+
+    color: #2230A8;
+
+    /* тень1 */
+
+    text-shadow: 0px 38px 80px rgba(191, 191, 191, 0.07), 0px 24.6296px 46.8519px rgba(131, 131, 131, 0.0531481), 0px 14.637px 25.4815px rgba(0, 0, 0, 0.0425185), 0px 7.6px 13px rgba(0, 0, 0, 0.035), 0px 3.0963px 6.51852px rgba(0, 0, 0, 0.0274815), 0px 0.703704px 3.14815px rgba(0, 0, 0, 0.0168519);
+  }
+}
+
+/* Категории с табами */
+
+.tabs-section__goods-list + script + .tabs-section__more-link {
+  display: block;
+  
+  width: 100%;
+}
+
+.tabs-section__goods-list--hidden + script + .tabs-section__more-link {
+  display: none;
 }

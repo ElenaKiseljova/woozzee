@@ -1,3 +1,17 @@
+<?php 
+  if (is_front_page()) {
+    if (!isset($_COOKIE['timer_coupon']) && !isset($_COOKIE['timer_flag'])) {      
+      $expires_coupon = time() + (3 * 60 * 60); // Через 3 часа блок скроется у пользователя
+      $expires_flag = time() + (30 * 24 * 60 * 60); // 30 дней спустя 
+                                                           // блок с возможностью получить скидку 
+                                                           // опять покажется
+      $value_coupon_cookie = $expires_coupon;
+      
+      setcookie('timer_coupon', $value_coupon_cookie, $expires_coupon, '/');
+      setcookie('timer_flag', 'on', $expires_flag, '/');
+    }
+  }
+?>
 <!DOCTYPE html>
 <html lang="ru" dir="ltr">
   <head>

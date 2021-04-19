@@ -40,6 +40,7 @@
     </section>
     
     <?php 
+      // Голубой баннер
       $banner_toggle = get_field( 'banner_toggle' );
     ?>
     
@@ -60,7 +61,6 @@
                   the_field( 'banner_text_upper' );
                 ?>
               </span>
-              <br class="holyday-section__br-mobile">
               <?php 
                 the_field( 'banner_text_supper' );
               ?>
@@ -317,161 +317,524 @@
         </ul>
       </div>
     </section>
-    <section class="page-main__section page-main__section--banner banner-section">
-      <div class="banner-section__container">
-        <div class="banner-section__wrapper swiper-wrapper">
-          <div class="banner-section__item swiper-slide">
-            <p class="banner-section__title">Желаете напомнить клиентам о социальной дистанции?</p>
-            <p class="banner-section__text">У нас есть требуемые по закону наклейки</p>
-            <a href="#" class="banner-section__more">Подробнее</a>
+    <?php 
+      // Бирюзовый слайдер
+      $cyan_slider_toggle = get_field( 'cyan_slider_toggle' );
+    ?>
+    <?php if (!empty($cyan_slider_toggle) && $cyan_slider_toggle == 'Да'): ?>
+      <section class="page-main__section page-main__section--banner banner-section">
+        <?php 
+          $count_cyan_slides = 4;
+          
+          $cyan_slides = array();
+          
+          for ($с=1; $с <= $count_cyan_slides; $с++) {
+            $cyan_slide_image_desktop = get_field( 'cyan_slide_image_desktop_' . $с );
+            $cyan_slide_image_mobile = get_field( 'cyan_slide_image_mobile_' . $с );
+            $cyan_slide_link = get_field( 'cyan_slide_link_' . $с );
+            $cyan_slide_title = get_field( 'cyan_slide_title_' . $с );
+            $cyan_slide_text = get_field( 'cyan_slide_text_' . $с );
+            
+            if (!empty($cyan_slide_image_desktop) && is_array($cyan_slide_image_desktop) && !empty($cyan_slide_image_mobile) && is_array($cyan_slide_image_mobile)  && !empty($cyan_slide_text) && !empty($cyan_slide_title)) {
+              $cyan_slide_item = array(
+                'image_desktop' => $cyan_slide_image_desktop,
+                'image_mobile' => $cyan_slide_image_mobile,
+                'link' => '',
+                'title' => $cyan_slide_title,
+                'text' => $cyan_slide_text,
+              );
+              
+              if (!empty($cyan_slide_link)) {
+                $cyan_slide_item['link'] = $cyan_slide_link;
+              }
+              
+              array_push($cyan_slides, $cyan_slide_item);
+            }
+          }
+        ?>
+        <?php if (!empty($cyan_slides)): ?>          
+          <div class="banner-section__container">
+            <div class="banner-section__wrapper swiper-wrapper">
+              <?php foreach ($cyan_slides as $cyan_slide): ?>
+                <div class="banner-section__item  swiper-slide">
+                  <p class="banner-section__title">
+                    <a href="<?= $cyan_slide['link']; ?>">
+                      <?= $cyan_slide['title']; ?>
+                    </a>
+                  </p>
+                  <p class="banner-section__text">
+                    <a href="<?= $cyan_slide['link']; ?>">
+                      <?= $cyan_slide['text']; ?>
+                    </a>
+                  </p>
+                  
+                  <div class="banner-section__img-wrapper">
+                     <a href="<?= $cyan_slide['link']; ?>">
+                        <picture>
+                          <!-- <source media="(min-width: 1200px)" srcset="img/naklejka-na-pol-1,5-metra-desktop.png">
+                          <source media="(min-width: 1024px)" srcset="img/naklejka-na-pol-1,5-metra-laptop.png"> -->
+                          <source media="(min-width: 768px)" srcset="<?= $cyan_slide['image_desktop']['url']; ?>">
+                          <img src="<?= $cyan_slide['image_mobile']['url']; ?>" alt="<?= $cyan_slide['image_desktop']['alt']; ?>">
+                        </picture>
+                     </a>
+                  </div>
+                  
+                  <?php if ($cyan_slide['link'] !== ''): ?>
+                    <a href="<?= $cyan_slide['link']; ?>" class="banner-section__more">
+                      Подробнее
+                    </a>
+                  <?php endif; ?>                
+                </div>
+              <?php endforeach; ?>
+            </div>
+            <div class="banner-section__swiper-pagination swiper-pagination"></div>
           </div>
-          <div class="banner-section__item swiper-slide">
-            <p class="banner-section__title">Желаете напомнить клиентам о социальной дистанции?</p>
-            <p class="banner-section__text">У нас есть требуемые по закону наклейки</p>
-            <a href="#" class="banner-section__more">Подробнее</a>
-          </div>
-          <div class="banner-section__item swiper-slide">
-            <p class="banner-section__title">Желаете напомнить клиентам о социальной дистанции?</p>
-            <p class="banner-section__text">У нас есть требуемые по закону наклейки</p>
-            <a href="#" class="banner-section__more">Подробнее</a>
-          </div>
+        <?php endif; ?>           
+      </section>
+    <?php endif; ?>
+    
+    <?php 
+      $popularity_toggle = get_field( 'popularity_toggle' );
+    ?>
+    
+    <?php if (!empty($popularity_toggle) && $popularity_toggle == 'Да'): ?>
+      <section class="page-main__section page-main__section--popular popular-section">
+        <div class="popular-section__wrapper">
+          <?php 
+            $popularity_array_category = get_field( 'popularity_array_category' );
+          ?>
+          <?php if (!empty($popularity_array_category)): ?>
+            <ul class="popular-section__goods-list link-list">
+              <?php foreach ($popularity_array_category as $popularity_category): ?>
+                <?php
+                  // Для получения ссылки на картинку
+                  $thumbnail_id = get_woocommerce_term_meta( $popularity_category->term_id, 'thumbnail_id', true );
+                  $thumbnail_src = wp_get_attachment_url( $thumbnail_id );
+                ?>
+                <li class="link-list__item link-list__item--bold">
+                  <a href="<?php echo get_term_link($popularity_category->slug, 'product_cat'); ?>">                  
+                    <?php if (!empty($thumbnail_src)): ?>
+                      <img src="<?php echo $thumbnail_src; ?>" alt="<?= $popularity_category->name; ?>">                           
+                    <?php else: ?>
+                      <img src="<?php echo wc_placeholder_img_src(); ?>" alt="<?= $popularity_category->name; ?>">                             
+                    <?php endif; ?>
+                    
+                    <?= $popularity_category->name; ?>
+                  </a>
+                 </li>
+              <?php endforeach; ?>
+              
+            </ul>
+          <?php endif; ?>        
         </div>
-        <div class="banner-section__swiper-pagination swiper-pagination"></div>
-      </div>
-    </section>
-    <section class="page-main__section page-main__section--popular popular-section">
-      <div class="popular-section__wrapper">
-        <ul class="popular-section__goods-list link-list">
-          <li class="link-list__item"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/previu-kalendari.jpg" width="264" height="342" alt="календари"> Календари</a></li>
-          <li class="link-list__item"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/previu-raskraski.jpg" width="264" height="342" alt="раскраски"> Раскраски</a></li>
-          <li class="link-list__item"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/rectangle-230.jpg" width="264" height="342" alt="календари"> Открытки</a></li>
-          <li class="link-list__item"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/rectangle-231.jpg" width="264" height="342" alt="календари"> Таблички</a></li>
-        </ul>
-      </div>
-    </section>
+      </section>
+    <?php endif; ?>    
+    
+    <?php 
+      // Таймер
+      
+      $timer_toggle = get_field( 'timer_toggle' );
+    ?>
+    
     <section class="page-main__section page-main__section--discount discount-section">
-      <div class="discount-section__wrapper">
-        <div class="discount-section__form-wrapper">
-          <form action="" class="discount-section__form">
-            <h2 class="discount-section__form-title">Активируйте 10% скидку на первый заказ!</h2>
-            <p class="discount-section__form-text">Промокод пришлем на e-mail</p>
-            <div class="discount-section__controls"><input class="discount-section__input" placeholder="Введите e-mail" type="email" name="email"> <button class="discount-section__button" type="submit">Отправить</button></div>
-          </form>
-          <div class="discount-section__img-wrapper"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/upakovka.png" alt="упаковка" width="280" height="183"></div>
-          <div class="discount-section__countdown">
-            <input value="00:59:59" type="text" readonly="readonly">
-            <p class="discount-section__countdown-text">Осталось до окончания действия предложения</p>
+      <?php if (!empty($timer_toggle) && $timer_toggle == 'Да'): ?>
+        <span class="visually-hidden" id="timer-off">
+          <?php if (isset($_COOKIE['timer_coupon'])): ?>
+            <?php 
+              // Время для таймера в куках
+              echo $_COOKIE['timer_coupon'] * 1000; 
+            ?>
+          <?php elseif(!isset($_COOKIE['timer_coupon']) && !isset($_COOKIE['timer_flag'])) : ?>
+            <?php 
+              // Если куки не задались еще, присваивается 3 часа, потом это время плавно куками заменяется, если страница перезагружена
+              echo (time() + (3 * 60 * 60)) * 1000; 
+            ?>
+          <?php 
+            // Время будет меньше текущего и блок таймера скроется
+            else :
+          ?>
+            0
+          <?php endif; ?>          
+        </span>
+        
+        <div class="discount-section__wrapper">
+          <div class="discount-section__form-wrapper">
+            <form id="timer-form" action="" class="discount-section__form">
+              <h2 class="discount-section__form-title">
+                <?php the_field( 'timer_title' ); ?>
+              </h2>
+              <p class="discount-section__form-text">
+                <?php the_field( 'timer_text' ); ?>
+              </p>
+              <div class="discount-section__controls">
+                <input class="discount-section__input" placeholder="Введите e-mail" type="email" name="email" required> 
+                
+                <input type="hidden" name="antibot" value="false">
+                <input type="hidden" name="sale" value="<?php the_field( 'timer_sale' ); ?>">
+                
+                <button id="timer-submit" class="discount-section__button" type="submit">
+                  Отправить
+                </button>
+              </div>
+              <div class="message"></div>
+            </form>
+            <div class="discount-section__img-wrapper">
+              <?php 
+                $timer_image = get_field( 'timer_image' );
+              ?>
+              <?php if (!empty($timer_image) && is_array($timer_image)): ?>
+                <img src="<?= $timer_image['url']; ?>" alt="<?= $timer_image['alt']; ?>">
+              <?php else : ?>
+                <img src="<?php echo get_template_directory_uri(); ?>/assets/img/upakovka.png" alt="упаковка">
+              <?php endif; ?>              
+            </div>
+            <div class="discount-section__countdown discount-section__countdown--timer">
+              <!-- <input value="00:59:59" type="text" readonly="readonly"> -->
+              <div class="clock">
+                <div class='clock__item hour'>
+                  <p class="clock__time">
+                    <span class='hour0'></span>
+                  </p>
+                  <p class="clock__time">
+                    <span class='hour1'></span>
+                  </p>
+                  <p class="visually-hidden">Часов</p>
+                </div>
+                <div class="clock__razd">
+                  :
+                </div>
+                <div class='clock__item min'>
+                  <p class="clock__time">
+                    <span class='min0'></span>
+                  </p>
+                  <p class="clock__time">
+                    <span class='min1'></span>
+                  </p>
+                  <p class="visually-hidden">Минут</p>
+                </div>
+                <div class="clock__razd">
+                  :
+                </div>
+                <div class='clock__item sec'>
+                  <p class="clock__time">
+                    <span class='sec0'></span>
+                  </p>
+                  <p class="clock__time">
+                    <span class='sec1'></span>
+                  </p>
+                  <p class="visually-hidden">Секунд</p>
+                </div>
+              </div>
+              
+              <p class="discount-section__countdown-text discount-section__countdown-text--timer">
+                <?php the_field( 'timer_subtext' ); ?>
+              </p>
+            </div>
+          </div>
+        </div>      
+      <?php endif; ?>      
+    </section>
+    
+    <?php 
+      $tabs_cat_toggle = get_field( 'tabs_cat_toggle' );
+    ?>
+    
+    <?php if (!empty($tabs_cat_toggle) && $tabs_cat_toggle == 'Да'): ?>
+      <section class="page-main__section page-main__section--tabs tabs-section">
+        <div class="tabs-section__wrapper">
+          <?php 
+            $tabs_cat_array = get_field( 'tabs_cat_array' );
+          ?>
+          <ul class="tabs-section__tabs-list">
+            <?php $i = 0; ?>
+            <?php foreach ($tabs_cat_array as $tabs_cat): ?>
+              <?php if ($i == 0): ?>
+                <li class="tabs-section__item tabs-section__item--current">
+                  <a>
+                    <?= $tabs_cat->name; ?>
+                  </a>
+                </li>
+              <?php else : ?>
+                <li class="tabs-section__item">
+                  <a>
+                    <?= $tabs_cat->name; ?>
+                  </a>
+                </li>
+              <?php endif; ?>              
+            <?php $i++; ?>
+            <?php endforeach; ?>
+          </ul>          
+          
+          <script type="text/javascript">
+            // Массивы значений для списков с постами
+            var true_posts = [];
+            var current_page = [];
+            var max_pages = [];
+            var post_on_page = [];
+            var id_category = [];
+          </script>
+          
+          <?php 
+            //Порядковый номер списка с постами
+            $h = 0; 
+            
+            //Порядковый кнопки подгрузки
+            $b = 0;
+          ?>
+          <?php foreach ($tabs_cat_array as $tabs_cat): ?>
+            <?php if ($h == 0): ?>
+              <ul class="tabs-section__goods-list link-list">              
+            <?php else : ?>
+              <ul class="tabs-section__goods-list link-list tabs-section__goods-list--hidden">
+            <?php endif; ?>  
+                <?php 
+                  $posts_on_page = get_field( 'tabs_cat_count' );
+                  
+                  if (empty($posts_on_page)) {
+                    $posts_on_page = 8;
+                  }
+                  
+                  $args = array (
+                    'posts_per_page' => $posts_on_page, // кол-во товаров
+                    'post_type' => 'product',
+                    'post_status' => array( 'publish' ),
+                    'tax_query' => array(
+                      array(
+                        'taxonomy' => 'product_cat',
+                        'field'    => 'term_id',
+                        'terms'    => $tabs_cat->term_id,
+                        'include_children' => true
+                      ),
+                    ),
+                    'meta_query' => array(
+                  		array(
+                  			'key' => '_thumbnail_id',
+                  			'compare' => 'EXISTS'
+                  		)
+                  	),
+                  );
+                  
+                  $query = new WP_Query( $args );
+                  if( $query->have_posts() ) {
+                    while( $query->have_posts() ) {
+                      $query->the_post();                      
+                      ?>
+                        <li class="link-list__item">
+                          <a href="<?php echo get_permalink( ); ?>">
+                            <?php if (has_post_thumbnail()): ?>
+                              <?php the_post_thumbnail(); ?>
+                            <?php endif; ?>
+                          </a>                              
+                        </li>
+                      <?php 
+                    }
+                  } else {
+                    get_template_part( 'template-parts/content', 'none' );
+                  }
+                ?>
+              </ul>      
+              <?php 
+                if (  $query->max_num_pages > 1 && get_query_var('paged') < $query->max_num_pages ) :
+                  ?>
+                    <script>
+                      true_posts[<?= $b; ?>] = '<?php echo serialize($query->query_vars); ?>';
+                      current_page[<?= $b; ?>] = <?php echo (get_query_var('paged')) ? get_query_var('paged') : 1; ?>;
+                      max_pages[<?= $b; ?>] = '<?php echo $query->max_num_pages; ?>';
+                      post_on_page[<?= $b; ?>] = '<?php echo $query->post_count; ?>';                         
+                      id_category[<?= $b; ?>] = '<?= $tabs_cat->term_id; ?>';
+                    </script>
+                    
+                    <a class="tabs-section__more-link" id="loadmore-<?= $b; ?>">
+                      <span>Показать больше</span>
+                    </a>
+                  <?php 
+                  $b++; 
+                endif;
+                
+                wp_reset_postdata(); // сброс
+              ?>    
+          <?php $h++; ?>
+          <?php endforeach; ?>
+        </div>
+      </section>
+    <?php endif; ?>
+    
+    <?php 
+      $hit_toggle = get_field( 'hit_toggle' );
+    ?>
+    
+    <?php if (!empty($hit_toggle) && $hit_toggle == 'Да'): ?>
+      <section class="page-main__section page-main__section--hit hit-section">
+        <div class="hit-section__wrapper">
+          <?php 
+            $hit_title = get_field( 'hit_title' );
+          ?>
+          
+          <h2 class="hit-section__title">
+            <?php if (isset($hit_title['white'])): ?>
+              <?= $hit_title['white']; ?>
+            <?php endif; ?>
+            <span class="hit-section__free">
+              <?php if (isset($hit_title['yellow'])): ?>
+                <?= $hit_title['yellow']; ?>
+              <?php endif; ?>
+            </span>
+          </h2>
+          <div class="hit-section__info">
+            <p class="hit-section__text">
+              <?php the_field( 'hit_text' ); ?>
+            </p>
+            <div class="hit-section__img-wrapper">
+              <?php 
+                $hit_image = get_field( 'hit_image' );
+              ?> 
+              <?php if (!empty($hit_image) && is_array($hit_image)): ?>
+                <picture>
+                  <?php if (isset($hit_image['desktop'])): ?>
+                    <source media="(min-width: 1024px)" srcset="<?= $hit_image['desktop']['url']; ?>">
+                  <?php endif; ?>
+                  <?php if (isset($hit_image['tablet'])): ?>
+                    <source media="(min-width: 500px)" srcset="<?= $hit_image['tablet']['url']; ?>">
+                  <?php endif; ?>
+                  <?php if (isset($hit_image['mobile'])): ?>
+                    <img src="<?= $hit_image['mobile']['url']; ?>" alt="<?= $hit_image['mobile']['alt']; ?>">
+                  <?php endif; ?>                  
+                </picture>
+              <?php endif; ?>              
+            </div>
+            <p class="hit-section__sub-text">
+              <?php the_field( 'hit_subtext' ); ?>
+            </p>
+            <a href="<?php echo wc_get_page_permalink( 'shop' ); ?>" class="hit-section__catalog-link">
+              В каталог
+            </a>
           </div>
         </div>
-      </div>
-    </section>
-    <section class="page-main__section page-main__section--tabs tabs-section">
-      <div class="tabs-section__wrapper">
-        <ul class="tabs-section__tabs-list">
-          <li class="tabs-section__item tabs-section__item--current"><a href="#">Лидеры продаж</a></li>
-          <li class="tabs-section__item"><a href="#">Новинки</a></li>
-          <li class="tabs-section__item"><a href="#">Акции</a></li>
-        </ul>
-        <ul class="tabs-section__goods-list link-list">
-          <li class="link-list__item"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/1.jpg" alt=""></a></li>
-          <li class="link-list__item"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/2.jpg" alt=""></a></li>
-          <li class="link-list__item"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/3.jpg" alt=""></a></li>
-          <li class="link-list__item"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/4.jpg" alt=""></a></li>
-          <li class="link-list__item"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/5.jpg" alt=""></a></li>
-          <li class="link-list__item"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/6.jpg" alt=""></a></li>
-          <li class="link-list__item"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/7.jpg" alt=""></a></li>
-          <li class="link-list__item"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/8.jpg" alt=""></a></li>
-        </ul>
-        <ul class="tabs-section__goods-list link-list tabs-section__goods-list--hidden">
-          <li class="link-list__item"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/1.jpg" alt=""></a></li>
-          <li class="link-list__item"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/2.jpg" alt=""></a></li>
-          <li class="link-list__item"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/3.jpg" alt=""></a></li>
-          <li class="link-list__item"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/4.jpg" alt=""></a></li>
-          <li class="link-list__item"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/5.jpg" alt=""></a></li>
-          <li class="link-list__item"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/6.jpg" alt=""></a></li>
-          <li class="link-list__item"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/7.jpg" alt=""></a></li>
-          <li class="link-list__item"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/8.jpg" alt=""></a></li>
-        </ul>
-        <ul class="tabs-section__goods-list link-list tabs-section__goods-list--hidden">
-          <li class="link-list__item"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/1.jpg" alt=""></a></li>
-          <li class="link-list__item"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/2.jpg" alt=""></a></li>
-          <li class="link-list__item"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/3.jpg" alt=""></a></li>
-          <li class="link-list__item"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/4.jpg" alt=""></a></li>
-          <li class="link-list__item"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/5.jpg" alt=""></a></li>
-          <li class="link-list__item"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/6.jpg" alt=""></a></li>
-          <li class="link-list__item"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/7.jpg" alt=""></a></li>
-          <li class="link-list__item"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/8.jpg" alt=""></a></li>
-        </ul>
-        <a class="tabs-section__more-link" href="#">Показать больше</a>
-      </div>
-    </section>
-    <section class="page-main__section page-main__section--hit hit-section">
-      <div class="hit-section__wrapper">
-        <h2 class="hit-section__title">Хит сезона - <span class="hit-section__free">бесплатно!</span></h2>
-        <div class="hit-section__info">
-          <p class="hit-section__text">Закажите на сумму от 1000 руб.<br class="hit-section__br">и получите дизайнерский набор стикеров для ноутбука.</p>
-          <div class="hit-section__img-wrapper">
-            <picture>
-              <source media="(min-width: 1200px)" srcset="<?php echo get_template_directory_uri(); ?>/assets/img/laptop1920.png">
-              <source media="(min-width: 768px)" srcset="<?php echo get_template_directory_uri(); ?>/assets/img/(1).png">
-              <img src="<?php echo get_template_directory_uri(); ?>/assets/img/noutbuk.png" alt="Ноутбук" width="514" height="377">
-            </picture>
-          </div>
-          <p class="hit-section__sub-text">Акция действует до 1 апреля 2021 года.</p>
-          <a href="#" class="hit-section__catalog-link">В каталог</a>
+      </section>
+    <?php endif; ?>    
+    
+    <?php 
+      $blog_toggle = get_field( 'blog_toggle' );
+    ?>
+    
+    <?php if (!empty($blog_toggle) && $blog_toggle == 'Да'): ?>
+      <section class="page-main__section page-main__section--articles articles-section">
+        <div class="articles-section__wrapper">
+          <h2 class="articles-section__title">
+            <?php the_field( 'blog_title' ) ?>
+          </h2>
+          
+          <ul class="articles-section__goods-list link-list">
+            <?php 
+              $blog_count = get_field( 'blog_count' );
+              
+              if (empty($blog_count)) {
+                $blog_count = 4;
+              }
+              
+              $args = array (
+                'posts_per_page' => $blog_count, // кол-во постов
+                'post_type' => 'post',
+                'post_status' => array( 'publish' ),
+                'meta_query' => array(
+                  array(
+                    'key' => '_thumbnail_id',
+                    'compare' => 'EXISTS'
+                  )
+                ),
+              );
+              
+              $query = new WP_Query( $args );
+              if( $query->have_posts() ) {
+                while( $query->have_posts() ) {
+                  $query->the_post();                      
+                  ?>
+                    <li class="link-list__item">
+                      <a href="<?php echo get_permalink(  ); ?>">
+                        <?php if (has_post_thumbnail()): ?>
+                          <?php the_post_thumbnail(); ?>
+                        <?php endif; ?>
+                        
+                        <?php the_title(); ?>
+                      </a>
+                    </li>
+                  <?php 
+                }
+              } else {
+                get_template_part( 'template-parts/content', 'none' );
+              }
+              
+              wp_reset_postdata(); // сброс
+            ?>             
+          </ul>
+          
+          <a href="<?php echo get_post_type_archive_link( 'post' ); ?>" class="articles-section__link">
+            ещё статьи
+          </a>
         </div>
-      </div>
-    </section>
-    <section class="page-main__section page-main__section--articles articles-section">
-      <div class="articles-section__wrapper">
-        <h2 class="articles-section__title">Это может вам пригодиться</h2>
-        <ul class="articles-section__goods-list link-list">
-          <li class="link-list__item"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/previu-kalendari.jpg" width="264" height="342" alt="календари"> Как скрыть дефекты неровной стены?</a></li>
-          <li class="link-list__item"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/previu-raskraski.jpg" width="264" height="342" alt="раскраски"> 5 дизайнерских идей для спальни</a></li>
-          <li class="link-list__item"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/rectangle-230.jpg" width="264" height="342" alt="календари"> Как приклеить и снять стикер?</a></li>
-          <li class="link-list__item"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/img/rectangle-231.jpg" width="264" height="342" alt="календари"> ТОП 10 учебных постеров для школьников</a></li>
-        </ul>
-        <a href="#" class="articles-section__link">ещё статьи</a>
-      </div>
-    </section>
-    <section class="page-main__section page-main__section--about-us about-us">
-      <div class="about-us__wrapper">
-        <h2 class="about-us__title">Интернет-магазин Woozzee — отличное качество по лучшей цене!</h2>
-        <p class="about-us__text">Долой скучные однотонные поверхности! Оживите интерьер красочным декором. Создайте уютное пространство для себя и всей семьи: больше не надо возиться с обоями и рисовать узоры кисточкой. Достаточно наклеить большую красивую наклейку - она отлично смотрится, не боится времени и котиков с когтями. Если через год надоест — спокойно удалите, не отдирая краску или обои от стены.<br><br>Или вам нужен плакат? Мы тщательно выбираем для нашго каталога самые лучшие и стильные плакаты и постеры с максимальной детализацией. Лёгкий для восприятия шрифт, качественные краски и высокая детализация — мы знаем толк в визуализации, пусть наши знания вам послужат!<br><br>Даже если вам нужен обычный стикер для товара, закажите у нас — и сам Артемий Лебедев, когда зайдёт к вам в магазин, будет изумлённо спрашивать, где вы взяли такие крутые наклейки.<br><br>Картины, календари, таблички, открытки, фотообои, раскраски — у нас есть всё, на чём можно нарисовать классный визуал!</p>
-        <button class="about-us__text-toggler">Читать полностью</button>
-        <ul class="about-us__list">
-          <li class="about-us__item">
-            <h3 class="about-us__item-title">Доставим куда угодно</h3>
-            <p class="about-us__item-text">От Москвы до Антарктиды</p>
-          </li>
-          <li class="about-us__item">
-            <h3 class="about-us__item-title">Передумали?</h3>
-            <p class="about-us__item-text">Возврат до 14 дней с момента покупки</p>
-          </li>
-          <li class="about-us__item">
-            <h3 class="about-us__item-title">Ваши деньги никто не перехватит!</h3>
-            <p class="about-us__item-text">Безопасные платежи с SSL-шифрованием</p>
-          </li>
-          <li class="about-us__item">
-            <h3 class="about-us__item-title">Отвечаем за качество</h3>
-            <p class="about-us__item-text">Собственное производство на европейском оборудовании</p>
-          </li>
-          <li class="about-us__item">
-            <h3 class="about-us__item-title">Заботимся о здоровье</h3>
-            <p class="about-us__item-text">Нет испарений и запахов. Материалы соответсвуют международным экостандартам</p>
-          </li>
-        </ul>
-      </div>
-    </section>
+      </section>
+    <?php endif; ?>
+    
+    <?php 
+      $about_toggle = get_field( 'about_toggle' );
+    ?>
+    
+    <?php if (!empty($about_toggle) && $about_toggle == 'Да'): ?>
+      <section class="page-main__section page-main__section--about-us about-us">
+        <div class="about-us__wrapper">
+          <h2 class="about-us__title">
+            <?php the_field( 'about_title' ); ?>
+          </h2>
+          <p class="about-us__text">
+            <?php the_field( 'about_text' ); ?>
+          </p>
+          <button class="about-us__text-toggler">Читать полностью</button>
+          
+          <ul class="about-us__list">
+            <?php 
+              for ($advantage=1; $advantage <= 5; $advantage++) {
+                ?>
+                  <li class="about-us__item" style="background-image: url('<?php the_field( 'about_advantage_icon_' . $advantage ); ?>');">
+                    <h3 class="about-us__item-title">
+                      <?php the_field( 'about_advantage_title_' . $advantage ); ?>
+                    </h3>
+                    <p class="about-us__item-text">
+                      <?php the_field( 'about_advantage_text_' . $advantage ); ?>
+                    </p>
+                  </li>
+                <?php
+              }
+            ?>
+          </ul>
+        </div>
+      </section>
+    <?php endif; ?>
+    
     <section class="page-main__section page-main__section--contact contact-section">
       <div class="contact-section__wrapper">
-        <h2 class="contact-section__title">Остались вопросы? Напишите нам:</h2>
-        <form action="" class="contact-section__form">
-          <div class="contact-section__input-wrapper"><input class="contact-section__input" type="text" name="name" placeholder="Ваше имя"> <input class="contact-section__input" type="email" name="email" placeholder="Ваш e-mail"> <input class="contact-section__input" type="tel" name="tel" placeholder="Ваш телефон"> <textarea class="contact-section__input contact-section__input--textarea" placeholder="Ваше сообщение" name="message" id="" cols="30" rows="10"></textarea></div>
+        <h2 class="contact-section__title">
+          <?php the_field( 'contacts_title' ); ?>
+        </h2>
+        <div class="contact-section__form">
+          <?php echo do_shortcode( '[contact-form-7 id="448" title="Напишите нам"]' ); ?>
+        </div>
+        
+        <!-- <form action="" class="contact-section__form">
+          <div class="contact-section__input-wrapper">
+            <input class="contact-section__input" type="text" name="name" placeholder="Ваше имя"> 
+            <input class="contact-section__input" type="email" name="email" placeholder="Ваш e-mail"> 
+            <input class="contact-section__input" type="tel" name="tel" placeholder="Ваш телефон"> 
+            <textarea class="contact-section__input contact-section__input--textarea" placeholder="Ваше сообщение" name="message" id="" cols="30" rows="10">
+            </textarea>
+          </div>
           <button class="contact-section__submit-button" type="submit">Отправить</button>
-        </form>
-        <p class="contact-section__text">Нажимая на кнопку, вы даете согласие<br>на обработку персональных данных<br>и соглашаетесь c политикой<br>конфиденциальности</p>
-        <p class="contact-section__subtext">С любовью, Woozzee</p>
+        </form> -->
+        <p class="contact-section__text">
+          Нажимая на кнопку, вы даете согласие<br>на обработку персональных данных<br>и соглашаетесь c <a href="<?php echo get_privacy_policy_url(); ?>">политикой<br>конфиденциальности</a>
+        </p>
+        <p class="contact-section__subtext">
+          <?php the_field( 'contacts_love' ); ?>
+        </p>
       </div>
     </section>
   </main>

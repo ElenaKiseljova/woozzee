@@ -284,28 +284,43 @@
   	wp_register_script( 'jquery', get_template_directory_uri() . '/assets/js/vendor/jquery-3.6.0.min.js', $ver = false, $in_footer = true);
   	wp_enqueue_script( 'jquery' );
     
-    wp_enqueue_script( 'mask-script', 'https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js', $deps = array('jquery'), $ver = false, $in_footer = true );
+    wp_enqueue_script( 'mask-script', get_template_directory_uri() . '/assets/js/vendor/jquery.inputmask.bundle.js', $deps = array('jquery'), $ver = false, $in_footer = true );
     wp_enqueue_script('swiper-script', get_template_directory_uri() . '/assets/js/vendor/swiper-bundle.min.js', $deps = array(), $ver = null, $in_footer = true );
     wp_enqueue_script('woozzee-script', get_template_directory_uri() . '/assets/js/script.min.js', $deps = array('jquery'), $ver = null, $in_footer = true );
     wp_enqueue_script('animation-anchor-script', get_template_directory_uri() . '/assets/js/animation-anchor.js', $deps = array(), $ver = null, $in_footer = true );
+    
+    wp_enqueue_script('timer-script', get_template_directory_uri() . '/assets/js/timer.js', $deps = array('jquery'), $ver = null, $in_footer = true );
+    wp_enqueue_script('coupon-script', get_template_directory_uri() . '/assets/js/coupon.js', $deps = array('jquery'), $ver = null, $in_footer = true );
+    
+    wp_enqueue_script('loadmore-script', get_template_directory_uri() . '/assets/js/loadmore.js', $deps = array('jquery'), $ver = null, $in_footer = true );
+    
     wp_enqueue_script('customizer-script', get_template_directory_uri() . '/assets/js/customizer-scripts.js', $deps = array('jquery', 'customize-preview'), $ver = null, $in_footer = true );
 
-    /*$args = array();
+    $args = array();
 
     $args['url'] = admin_url('admin-ajax.php');
-    
+    /*
     if (class_exists('WooCommerce')) {
-      $args['cart'] = WC()->cart;
+      $args['nonce'] = wp_create_nonce('woozzee');
+    }*/
 
-      if (is_product()) {
-        $args['nonce'] = wp_create_nonce('oneclick-woozzee');
-      }
-    }
-
-    wp_localize_script( 'form-script', 'woozzee_ajax', $args);*/
+    wp_localize_script( 'coupon-script', 'woozzee_ajax', $args);
   }
-  
+    
   if (class_exists('WooCommerce')) {
+    // Генератор ПИН
+    
+    function generatePIN($digits = 4){
+      $i = 0; //counter
+      $pin = ""; //our default pin is blank.
+      while($i < $digits){
+          //generate a random number between 0 and 9.
+          $pin .= mt_rand(0, 9);
+          $i++;
+      }
+      return $pin;
+    }    
+    
     // Переопределяю шаблон формы поиска
 
     add_filter('get_search_form', 'new_search_form');
@@ -325,6 +340,244 @@
         </form>
     	';
     	return $form;
+    }
+    
+    // Загрузить ещё (функция-обработчик запроса)
+
+    function load_more () {
+    	$args = unserialize( stripslashes( $_POST['query'] ) );
+
+      $paged = $_POST['page'] + 1; // следующая страница
+    	$args['paged'] = $paged;
+
+      if ($args[ 'post_type' ] == 'product') {
+        $id_category = $_POST['id_category'];
+
+        if (isset($_POST['id_category'])) {
+          $args['tax_query'] = array (
+              array (
+                'taxonomy' => 'product_cat',
+                'field'    => 'term_id',
+                'terms'    => array( $id_category ),
+                'include_children' => true
+              ),
+          );
+          
+          $args['meta_query'] = array(
+            array(
+              'key' => '_thumbnail_id',
+              'compare' => 'EXISTS'
+            )
+          );
+        }
+      }
+
+      // обычно лучше использовать WP_Query, но не здесь
+      query_posts( $args );
+
+    	// если посты есть
+    	if( have_posts() ) :
+
+    		// запускаем цикл
+        while( have_posts() ):
+          the_post();
+          if ($args[ 'post_type' ] == 'product') {
+            ?>
+              <li class="link-list__item">
+                <a href="<?php echo get_permalink( ); ?>">
+                  <?php if (has_post_thumbnail()): ?>
+                    <?php the_post_thumbnail(); ?>
+                  <?php endif; ?>
+                </a>
+              </li>
+            <?php
+          }
+        endwhile;
+    	endif;
+
+      wp_reset_postdata();
+
+    	die();
+    }
+    
+    // Символ валюты
+
+    add_filter('woocommerce_currency_symbol', 'change_existing_currency_symbol', 10, 2);
+
+    function change_existing_currency_symbol( $currency_symbol, $currency ) {
+      switch( $currency ) {
+        case 'RUB': $currency_symbol = 'руб.';
+        break;
+      }
+      return $currency_symbol;
+    }
+    
+    // Редактирование карточки товара ( архив )
+
+    if ( ! function_exists( 'woocommerce_template_loop_product_link_open' ) ) {
+    	/**
+    	 * Insert the opening anchor tag for products in the loop.
+    	 */
+    	function woocommerce_template_loop_product_link_open() {
+    		global $product;
+
+    		$link = apply_filters( 'woocommerce_loop_product_link', get_the_permalink(), $product );
+
+    		echo '<a href="' . esc_url( $link ) . '" class="good-article__img-wrapper">';
+    	}
+    }
+    
+    remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_product_link_close', 5 );
+    add_action( 'woocommerce_before_shop_loop_item_title', 'woocommerce_template_loop_product_link_close', 12 );
+    
+    // Добавляю обертку для всего в карточке
+    add_action( 'woocommerce_before_shop_loop_item', 'woozzee_article_tag_start', 3 );
+    
+    function woozzee_article_tag_start () {
+      echo '<article class="link-list__article good-article">';
+    }
+    
+    add_action( 'woocommerce_after_shop_loop_item', 'woozzee_article_tag_end', 15 );
+    
+    function woozzee_article_tag_end () {
+      echo '</article>';
+    }
+    
+    // Добавляю список изображений Галереи
+    
+    add_action( 'woocommerce_before_shop_loop_item', 'woozzee_images_gallerry_in_product_archive', 5 );
+    
+    function woozzee_images_gallerry_in_product_archive () {
+      global $product;
+      
+      $attachment_ids = $product->get_gallery_image_ids();
+      
+      $image_size_thumb = 'full';
+      $icon = false;
+      
+      if ( $attachment_ids ) {
+        ?>
+          <ul class="good-article__img-list">
+            <?php 
+              $count_image = 1;
+              foreach ( $attachment_ids as $attachment_id ) {
+                if ($count_image < 4) :
+                  ?>
+                    <li class="good-article__img-item">
+                      <?php
+                        $image = wp_get_attachment_image(	$attachment_id, $image_size_thumb, $icon );
+                        echo $image;
+                      ?>
+                    </li>
+                  <?php
+                  $count_image++;
+                endif;
+              }
+            ?>
+          </ul>
+        <?php        
+      }
+    }
+    
+    // Добавляю Инфо обертку
+    
+    add_action( 'woocommerce_before_shop_loop_item_title', 'woozzee_info_wrapper_in_product_archive_start', 14 );
+    
+    function woozzee_info_wrapper_in_product_archive_start () {
+      echo '<div class="good-article__info-wrapper">';
+    }
+    
+    add_action( 'woocommerce_after_shop_loop_item', 'woozzee_info_wrapper_in_product_archive_end', 12 );
+    
+    function woozzee_info_wrapper_in_product_archive_end () {
+      echo '</div>';
+    }
+    
+    // Заголовок в списке товаров
+
+    if ( ! function_exists( 'woocommerce_template_loop_product_title' ) ) {
+
+      /**
+       * Show the product title in the product loop. By default this is an H2.
+       */
+      function woocommerce_template_loop_product_title() {
+        echo '<h3 class="good-article__title"><a href="' . get_the_permalink() . '">' . get_the_title() . '</a></h3>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+      }
+    }
+    
+    // Купон на скидку
+    
+    class woozzee_ajax {
+      function subscribe () {      
+        if($_REQUEST['antibot'] == 'true') {
+          $sale = (int) $_REQUEST['sale'];
+          
+          $a = $_REQUEST['email'];
+          $sanitized_a = filter_var($a, FILTER_SANITIZE_EMAIL);
+          
+          if (!filter_var($sanitized_a, FILTER_VALIDATE_EMAIL)) {
+            echo "Введен неправильный e-mail";
+          } else {
+            global $wpdb;
+            $id=$wpdb->get_var($wpdb->prepare("SELECT ID FROM {$wpdb->prefix}subscribers WHERE email=%s",array('email'=>$sanitized_a)));            
+            
+            if (is_null($id)) {
+                $coupon_code = 'PP' . generatePIN(6) ; // Code
+                $email = $sanitized_a;
+                $subject = 'Ваш купон на скидку';
+                $amount = $sale; // Amount
+                $discount_type = 'percent'; // Type: fixed_cart, percent, fixed_product, percent_product
+
+                $coupon = array(
+                    'post_title' => $coupon_code,
+                    'post_content' => '',
+                    'post_status' => 'publish',
+                    'post_author' => 1,
+                    'post_type'     => 'shop_coupon'
+                );
+
+                $new_coupon_id = wp_insert_post( $coupon );
+
+                // Add meta
+                update_post_meta( $new_coupon_id, 'discount_type', $discount_type );
+                update_post_meta( $new_coupon_id, 'coupon_amount', $amount );
+                update_post_meta( $new_coupon_id, 'individual_use', 'yes' );
+                update_post_meta( $new_coupon_id, 'product_ids', '' );
+                update_post_meta( $new_coupon_id, 'exclude_product_ids', '' );
+                update_post_meta( $new_coupon_id, 'usage_limit', '1' );
+                update_post_meta( $new_coupon_id, 'expiry_date', strtotime("+2 week") );
+                update_post_meta( $new_coupon_id, 'customer_email', $email );
+
+                $site_name = get_bloginfo( 'name' );
+                
+                $message = "Уважаемый гость! \r\nМы рады, что Вы успели получить свой код на скидку!\r\nСпешите воспользовать Вашим купоном! Срок его действия истекает через 7 дней. \r\n\r\nВаш личный купон на " . $sale . "% скидку:  " . $coupon_code. " \r\n\r\nЧтобы воспользоваться скидкой, введите промокод в поле «купон» в корзине при заказе на сайте. \r\nРады будем видеть вас в числе любимых гостей и постоянных клиентов на нашем сайте " . $site_name;
+                $headers = 'From: '. get_option('admin_email') . "\r\n" .
+                    'Reply-To: ' . get_option('admin_email') . "\r\n";
+                $sent = wp_mail($email, $subject, strip_tags($message), $headers);    
+
+
+                $wpdb->insert($wpdb->prefix."subscribers",array('email'=>$sanitized_a,'datetime'=>current_time('mysql')));
+                echo "Купон успешно отправлен! Проверьте свою почту.";
+            } else {
+              echo "Купон уже был отправлен на данный e-mail.";
+            }
+          }          
+        } else{
+          echo "Подтвердите, что Вы не робот";
+        }
+        
+        die();    
+      }
+    }    
+    
+    $woozzee_ajax = new woozzee_ajax();
+    
+    if( wp_doing_ajax() ) {
+      add_action('wp_ajax_subscribe', array($woozzee_ajax, 'subscribe'));
+      add_action('wp_ajax_nopriv_subscribe', array($woozzee_ajax, 'subscribe'));
+    
+      add_action('wp_ajax_load_more', 'load_more');
+      add_action('wp_ajax_nopriv_load_more', 'load_more');
     }
   }
 ?>
