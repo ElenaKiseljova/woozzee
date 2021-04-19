@@ -2,369 +2,68 @@
   get_header(  );
 ?>
 
-<?php if ( is_shop() || is_product_category() || is_search() ): ?>
+<?php if ( is_shop() || is_product_category() || is_search() || is_product_tag() ): ?>
 <main class="page-main page-main--catalog-page">
   <section class="page-main__section catalog-section">
     <div class="catalog-section__wrapper">
-      <h1 class="catalog-section__title">
-        <?php woocommerce_page_title(); ?>
-      </h1>
-      <!-- <div class="catalog-section__menu-list">
-        <ul class="catalog-section__menu-list-wrapper">
-          <li class="catalog-section__menu-item">
-            <button class="catalog-section__button catalog-section__button--opened"><span>Наклейки</span></button>
-            <ul class="catalog-section__sublist">
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Интерьер</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Праздники</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Детские</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Для предприятий</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">На авто</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">На ноутбук</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">По рисунку</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Стикеры</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Этикетки</a>
-              </li>
-            </ul>
-          </li>
-          <li class="catalog-section__menu-item">
-            <button class="catalog-section__button catalog-section__button--closed"><span>Картины</span></button>
-            <ul class="catalog-section__sublist">
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Интерьер</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Праздники</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Детские</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Для предприятий</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">На авто</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">На ноутбук</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">По рисунку</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Стикеры</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Этикетки</a>
-              </li>
-            </ul>
-          </li>
-          <li class="catalog-section__menu-item">
-            <button class="catalog-section__button catalog-section__button--closed"><span>Календари</span></button>
-            <ul class="catalog-section__sublist">
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Интерьер</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Праздники</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Детские</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Для предприятий</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">На авто</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">На ноутбук</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">По рисунку</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Стикеры</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Этикетки</a>
-              </li>
-            </ul>
-          </li>
-          <li class="catalog-section__menu-item">
-            <button class="catalog-section__button catalog-section__button--closed"><span>Плакаты/постеры</span></button>
-            <ul class="catalog-section__sublist">
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Интерьер</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Праздники</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Детские</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Для предприятий</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">На авто</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">На ноутбук</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">По рисунку</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Стикеры</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Этикетки</a>
-              </li>
-            </ul>
-          </li>
-          <li class="catalog-section__menu-item">
-            <button class="catalog-section__button catalog-section__button--closed"><span>Раскраски</span></button>
-            <ul class="catalog-section__sublist">
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Интерьер</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Праздники</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Детские</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Для предприятий</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">На авто</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">На ноутбук</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">По рисунку</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Стикеры</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Этикетки</a>
-              </li>
-            </ul>
-          </li>
-          <li class="catalog-section__menu-item">
-            <button class="catalog-section__button catalog-section__button--closed"><span>Открытки</span></button>
-            <ul class="catalog-section__sublist">
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Интерьер</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Праздники</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Детские</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Для предприятий</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">На авто</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">На ноутбук</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">По рисунку</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Стикеры</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Этикетки</a>
-              </li>
-            </ul>
-          </li>
-          <li class="catalog-section__menu-item">
-            <button class="catalog-section__button catalog-section__button--closed"><span>Таблички</span></button>
-            <ul class="catalog-section__sublist">
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Интерьер</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Праздники</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Детские</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Для предприятий</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">На авто</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">На ноутбук</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">По рисунку</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Стикеры</a>
-              </li>
-              <li class="catalog-section__item catalog-section__item--sublist">
-                <a href="#">Этикетки</a>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-      <ul class="breadcrumbs">
-        <li class="breadcrumbs__item">
-          <a href="#">
-          Главная 
-          </a>
-        </li>
-        <li class="breadcrumbs__item">
-          <a href="#">
-          Каталог
-          </a>
-        </li>
-      </ul>
-      <div class="catalog-banner">
-        <p class="catalog-banner__title">Нет желания смотреть весь сайт?</p>
-        <p class="catalog-banner__text">Поможем найти за 5 минут именно то, что вам нужно!</p>
-        <button class="catalog-banner__button" type="button">Позвать менеджера</button>
-      </div>
-      <ul class="catalog-section__goods-list link-list">
-        <li class="link-list__item">
-          <a href="#">
-          <img src="img/previu-kalendari.jpg" width="264" height="342" alt="календари">
-          Календари
-          </a>
-        </li>
-        <li class="link-list__item">
-          <a href="#">
-          <img src="img/previu-raskraski.jpg" width="264" height="342" alt="раскраски">
-          Раскраски
-          </a>
-        </li>
-        <li class="link-list__item">
-          <a href="#">
-          <img src="img/rectangle-230.jpg" width="264" height="342" alt="календари">
-          Открытки
-          </a>
-        </li>
-        <li class="link-list__item">
-          <a href="#">
-          <img src="img/rectangle-231.jpg" width="264" height="342" alt="календари">
-          Таблички
-          </a>
-        </li>
-        <li class="link-list__item">
-          <a href="#">
-          <img src="img/rectangle-230.jpg" width="264" height="342" alt="календари">
-          Открытки
-          </a>
-        </li>
-        <li class="link-list__item">
-          <a href="#">
-          <img src="img/rectangle-231.jpg" width="264" height="342" alt="календари">
-          Таблички
-          </a>
-        </li>
-        <li class="link-list__item">
-          <a href="#">
-          <img src="img/rectangle-230.jpg" width="264" height="342" alt="календари">
-          Открытки
-          </a>
-        </li>
-        <li class="link-list__item">
-          <a href="#">
-          <img src="img/rectangle-231.jpg" width="264" height="342" alt="календари">
-          Таблички
-          </a>
-        </li>
-      </ul> -->
+      
+      <?php 
+        /**
+         * Hook: woozzee_header_catalog.
+         *
+         * @hooked woozzee_catalog_title - 5
+         * @hooked woozzee_catalog_category_list - 6
+         * @hooked woozzee_catalog_breadcrumbs - 7
+         * @hooked woozzee_catalog_description - 10
+         * @hooked woozzee_catalog_banner - 20
+         * @hooked woo_show_subcategory - 30
+         * 
+         * 
+         */
+         
+         do_action( 'woozzee_header_catalog' );
+      ?>
     </div>
-  </section>
-  <!-- <section class="page-section__popular-queries popular-queries">
+  </section> 
+  <section class="page-section__popular-queries popular-queries">
     <div class="popular-queries__wrapper">
-      <h2 class="popular-queries__title">Популярные запросы каталога:</h2>
-      <ul class="popular-queries__list">
-        <li class="popular-queries__item">
-          <svg>
-            <use xlink:href="#border"></use>
-          </svg>
-          <a href="#">Абстракция</a>
-        </li>
-        <li class="popular-queries__item">
-          <svg>
-            <use xlink:href="#border"></use>
-          </svg>
-          <a href="#">Города</a>
-        </li>
-        <li class="popular-queries__item">
-          <svg>
-            <use xlink:href="#border"></use>
-          </svg>
-          <a href="#">В ванную</a>
-        </li>
-        <li class="popular-queries__item">
-          <svg>
-            <use xlink:href="#border"></use>
-          </svg>
-          <a href="#">На холсте</a>
-        </li>
-        <li class="popular-queries__item">
-          <svg>
-            <use xlink:href="#border"></use>
-          </svg>
-          <a href="#">Репродукция</a>
-        </li>
-        <li class="popular-queries__item">
-          <svg>
-            <use xlink:href="#border"></use>
-          </svg>
-          <a href="#">В детскую</a>
-        </li>
-        <li class="popular-queries__item">
-          <svg>
-            <use xlink:href="#border"></use>
-          </svg>
-          <a href="#">Новый год</a>
-        </li>
-        <li class="popular-queries__item">
-          <svg>
-            <use xlink:href="#border"></use>
-          </svg>
-          <a href="#">Цветы</a>
-        </li>
-        <li class="popular-queries__item">
-          <svg>
-            <use xlink:href="#border"></use>
-          </svg>
-          <a href="#">В офис</a>
-        </li>
-      </ul>
+      <?php 
+        $catalog_page_id = get_option( 'woocommerce_shop_page_id' );
+        
+        if (!$catalog_page_id) {
+          $catalog_page_id = 24;
+        }
+      
+        $catalog_popularity_toggle = get_field( 'catalog_popularity_toggle', $catalog_page_id );
+      ?>
+      
+      <?php if (!empty($catalog_popularity_toggle) && $catalog_popularity_toggle == 'Да'): ?>
+        <h2 class="popular-queries__title">
+          <?php the_field( 'catalog_popularity_title', $catalog_page_id ); ?>
+        </h2>
+        
+        <?php 
+          $catalog_popularity_tags = get_field( 'catalog_popularity_tags', $catalog_page_id );
+        ?>
+        
+        <?php if (!empty($catalog_popularity_tags) && is_array($catalog_popularity_tags)): ?>
+          <ul class="popular-queries__list">
+            <?php foreach ($catalog_popularity_tags as $catalog_popularity_tag): ?>
+              <li class="popular-queries__item">
+                <svg>
+                  <use xlink:href="#border"></use>
+                </svg>
+                <a href="<?php echo get_term_link($catalog_popularity_tag->slug, 'product_tag'); ?>">
+                  <?= $catalog_popularity_tag->name; ?>
+                </a>
+              </li>
+            <?php endforeach; ?>            
+          </ul>
+        <?php endif; ?>        
+      <?php endif; ?>
+      
+      <?php echo do_shortcode( '[wpf-filters id=1]' ); ?>
+      <!-- 
       <h2 class="popular-queries__title popular-queries__title--color">По цвету:</h2>
       <ul class="popular-queries__color-list">
         <li class="popular-queries__color-item popular-queries__color-item--white">
@@ -403,12 +102,25 @@
         <li class="popular-queries__color-item popular-queries__color-item--brown">
           <a href="#"><span class="popular-queries__color-name">Коричневый</span></a>
         </li>
-      </ul>
+      </ul>-->
     </div>
   </section>
   <section class="page-section__sorting sorting-section">
     <div class="sorting-section__wrapper">
       <h2 class="sorting-section__title">Сортировать по:</h2>
+      
+      <?php 
+        /**
+         * Hook: woozzee_catalog_sort.
+         *
+         * @hooked woozzee_catalog_sort_list - 20
+         * 
+         * 
+         */
+         
+         do_action( 'woozzee_catalog_sort' );
+      ?>
+      <!--
       <ul class="sorting-section__sort-by">
         <li class="sorting-section__item sorting-section__item--current">
           <a href="">Цене</a>
@@ -420,6 +132,7 @@
           <a href="">Популярности</a>
         </li>
       </ul>
+      -->
       <ul class="pagination">
         <li class="pagination__item pagination__item--current"><a href="#">1</a></li>
         <li class="pagination__item"><a href="#">2</a></li>
@@ -458,7 +171,7 @@
       </form>
     </div>
   </section>
--->
+
   <section class="page-main__section list-section">
     <div class="list-section__wrapper">
       <?php

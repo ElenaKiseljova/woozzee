@@ -140,14 +140,35 @@ jQuery(document).ready(($) => {
         target.classList.toggle('catalog-section__button--closed');
     })
 
-    $('.header-nav__item--sublist a').click((e) => {
+    $('.header-nav__item--sublist > a').click((e) => {
+        if (window.innerWidth < 768) {
+
+            e.stopPropagation();
+            e.preventDefault();
+            const link = e.target;
+            const list = link.closest('.header-nav__item--sublist');
+            
+            list.classList.toggle('header-nav__item--mobile-sublist');    
+        }
+    })
+    $('.nav-sublist__item > a').click((e) => {
+        if (window.innerWidth < 768) { 
+
+            e.stopPropagation();
+            e.preventDefault();
+            const link = e.target;
+            const list = link.closest('.nav-sublist__item');
+            
+            list.classList.toggle('nav-sublist__item--mobile-sublist');    
+        }
+    })
+    $('.catalog-section__item--sublist > a').click((e) => {
         e.stopPropagation();
-        e.target.closest('.header-nav__item--sublist').classList.toggle('header-nav__item--mobile-sublist');
-        document.addEventListener('click', function(ev) {
-            e.target.closest('.header-nav__item--sublist').classList.remove('header-nav__item--mobile-sublist');
-            document.removeEventListener('click', this);
-        })
-    
+        e.preventDefault();
+        const link = e.target;
+        const list = link.closest('.catalog-section__item--sublist');
+        
+        list.classList.toggle('catalog-section__item--shown');    
     })
 
     $(window).scroll((e) => {

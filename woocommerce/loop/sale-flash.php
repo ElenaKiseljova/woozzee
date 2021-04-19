@@ -65,16 +65,45 @@ $product_id = $product->get_id();
 
 ?>
 <?php 
-	if ( $product->is_on_sale() && !in_array($product_id, $latest) ) : ?>
-		<?php 
+	if ( $product->is_on_sale() && !in_array($product_id, $latest) ) { 
+		if( $product->is_type( 'simple' ) ) {
+
+			// a simple product
+			
 			// рассчитываем процент скидки
 			$percentage = round(( ( $product->get_regular_price() - $product->get_sale_price() ) / $product->get_regular_price() ) * 100);
-		?>
-		<?php echo apply_filters( 'woocommerce_sale_flash', '<span class="good-article__new good-article__new--sale" style="background-color: #FF4557;">-' . $percentage . '%</span>', $post, $product ); ?>
 
-		<?php
-	elseif (in_array($product_id, $latest) && ($product->is_on_sale() || !$product->is_on_sale())) :
+		} elseif( $product->is_type( 'variable' ) ) {
+
+			// a variable product
+			
+			$available_variations = $product->get_available_variations();
+
+			if($available_variations){
+
+				#Step 2: Get product variation id
+				$variation_id=$available_variations[0]['variation_id']; // Getting the variable id of just the 1st product. You can loop $available_variations to get info about each variation.
+
+				#Step 3: Create the variable product object
+				$variable_product1= new WC_Product_Variation( $variation_id );
+
+				#Step 4: You have the data. Have fun :)
+				$regular_price = $variable_product1->regular_price;
+				$sale_price = $variable_product1->sale_price;
+				
+				$percentage = round(( ( $regular_price - $sale_price ) / $regular_price ) * 100);
+			} else {
+				$percentage = 0;
+			}
+
+		}
+		
+		if (isset($percentage)) {
+			echo apply_filters( 'woocommerce_sale_flash', '<span class="good-article__new good-article__new--sale" style="background-color: #FF4557;">-' . $percentage . '%</span>', $post, $product );
+		}
+
+	} elseif (in_array($product_id, $latest) && ($product->is_on_sale() || !$product->is_on_sale())) {
 		echo '<span class="good-article__new good-article__new--latest">' . esc_html__( 'New', 'woozzee' ) . '</span>';
-	endif;
+	}
 
 /* Omit closing PHP tag at the end of PHP files to avoid "headers already sent" issues. */

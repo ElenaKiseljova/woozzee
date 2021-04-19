@@ -296,3 +296,19 @@ Version: 1.0
 .tabs-section__goods-list--hidden + script + .tabs-section__more-link {
   display: none;
 }
+
+/* Сортировка */
+
+.sorting-section__item--reverse::after {
+  transform: rotate(180deg);
+}
+
+/* Меню */
+
+.nav-sublist--catalog {
+  width: auto;
+}
+
+.nav-sublist--catalog a {
+  white-space: nowrap;
+}
