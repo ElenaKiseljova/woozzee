@@ -1,11 +1,17 @@
 
 const cardImageClickHandler = function (target, mainImg) {
-    let targetSource = target.src;
-    let mainSource = mainImg.src;
-
-    target.src = mainSource;
-    mainImg.src = targetSource;
+    let targetSourceSrcset = target.srcset;
+    let mainSourceSrcset = mainImg.srcset;
+    let targetSourceSrc = target.src;
+    let mainSourceSrc = mainImg.src;
     
+    if (targetSourceSrcset && mainSourceSrcset) {
+        target.srcset = mainSourceSrcset;
+        mainImg.srcset = targetSourceSrcset;
+    }
+
+    target.src = mainSourceSrc;
+    mainImg.src = targetSourceSrc;
 };
 
 const cardClickHandler = function (e) {
@@ -128,9 +134,22 @@ jQuery(document).ready(($) => {
     $('.about-us__text-toggler').click(() => {
         $('.about-us__text').toggleClass('about-us__text--shown');
     })
-    $('.catalog-article__button').click(() => {
-        $('.catalog-article__text').toggleClass('catalog-article__text--shown');
+
+    $('.catalog-article p').each((i, el) => {
+        if (el.clientHeight > 200) {
+            el.classList.add('catalog-article__text--hidden')
+        }
     })
+
+    $('.catalog-article__button').click((e) => {
+        const paragraphs = e.target.closest('.catalog-article').querySelectorAll('.catalog-article__text--hidden');
+        Array.from(paragraphs).forEach((p) => {
+            p.classList.toggle('catalog-article__text--shown')
+        })
+        
+    })
+
+
 
     $('.callback-form__input').inputmask({"mask": "+7 (999) 999 99 99"});
 
@@ -138,10 +157,10 @@ jQuery(document).ready(($) => {
         const target = e.target.closest('button');
         target.classList.toggle('catalog-section__button--opened');
         target.classList.toggle('catalog-section__button--closed');
-    })
+    });
 
     $('.header-nav__item--sublist > a').click((e) => {
-        if (window.innerWidth < 768) {
+        if (window.innerWidth < 1024) {
 
             e.stopPropagation();
             e.preventDefault();
@@ -151,8 +170,8 @@ jQuery(document).ready(($) => {
             list.classList.toggle('header-nav__item--mobile-sublist');    
         }
     })
-    $('.nav-sublist__item > a').click((e) => {
-        if (window.innerWidth < 768) { 
+    $('.nav-sublist__item--arrow > a').click((e) => {
+        if (window.innerWidth < 1024) { 
 
             e.stopPropagation();
             e.preventDefault();
@@ -162,7 +181,7 @@ jQuery(document).ready(($) => {
             list.classList.toggle('nav-sublist__item--mobile-sublist');    
         }
     })
-    $('.catalog-section__item--sublist > a').click((e) => {
+    $('.catalog-section__item--arrow > a').click((e) => {
         e.stopPropagation();
         e.preventDefault();
         const link = e.target;
@@ -196,74 +215,107 @@ jQuery(document).ready(($) => {
     $('.good-article__info-wrapper button ').click((e) => e.stopPropagation());
     $('.good-article__info-wrapper a ').click((e) => e.stopPropagation());
 
+    $('.product__count button').click(function (e) {
+        const input = document.querySelector('.product__count').querySelector('INPUT');
+        if (e.target.classList.contains('product__count-increment')) {
+            input.value = Number(input.value) + 1;
+        } else {
+            input.value = Number(input.value) - 1;
+        }
+        
+        input.value < 0 ? input.value = 0 : undefined;
+    })  
+
 
     videoInit($);
 
     tabsHandler();
-})
-
-const catalogSwiper = new Swiper('.slider-section__slider-container', {
-    pagination: {
-        el: '.swiper-pagination',
-      },
-})
-const catalogSwiper1 = new Swiper('.goods-card__img-wrapper--1', {
-    spaceBetween: 20,
-    pagination: {
-        el: '.swiper-pagination',
-      },
-    breakpoints: {
-        375: {
-            slidesPerView: 'auto',
-            centeredSlides: true,
-            spaceBetween: 30,
-        }
-    }
-})
-const catalogSwiper2 = new Swiper('.goods-card__img-wrapper--2', {
-    spaceBetween: 20,
-    pagination: {
-        el: '.swiper-pagination',
-      },
-      breakpoints: {
-        375: {
-            slidesPerView: 'auto',
-            centeredSlides: true,
-            spaceBetween: 30,
-        }
-    }
-})
-const catalogSwiper3 = new Swiper('.goods-card__img-wrapper--3', {
-    spaceBetween: 20,
-    pagination: {
-        el: '.swiper-pagination',
-      },
-      breakpoints: {
-        375: {
-            slidesPerView: 'auto',
-            centeredSlides: true,
-            spaceBetween: 30,
-        }
-    }
-})
-const catalogSwiper4 = new Swiper('.goods-card__img-wrapper--4', {
-    spaceBetween: 20,
-    pagination: {
-        el: '.swiper-pagination',
-      },
-      breakpoints: {
-        375: {
-            slidesPerView: 'auto',
-            centeredSlides: true,
-            spaceBetween: 30,
-        }
-    }
-})
-
-if (window.screen.availWidth > 1023) {
-    const bannerSwiper = new Swiper('.banner-section__container', {
+    
+    const catalogSwiper = new Swiper('.slider-section__slider-container', {
         pagination: {
             el: '.swiper-pagination',
           },
-    });
-}
+    })
+    const catalogSwiper1 = new Swiper('.goods-card__img-wrapper--1', {
+        spaceBetween: 20,
+        pagination: {
+            el: '.swiper-pagination',
+          },
+        breakpoints: {
+            375: {
+                slidesPerView: 'auto',
+                centeredSlides: true,
+                spaceBetween: 30,
+            }
+        }
+    })
+    const catalogSwiper2 = new Swiper('.goods-card__img-wrapper--2', {
+        spaceBetween: 20,
+        pagination: {
+            el: '.swiper-pagination',
+          },
+          breakpoints: {
+            375: {
+                slidesPerView: 'auto',
+                centeredSlides: true,
+                spaceBetween: 30,
+            }
+        }
+    })
+    const catalogSwiper3 = new Swiper('.goods-card__img-wrapper--3', {
+        spaceBetween: 20,
+        pagination: {
+            el: '.swiper-pagination',
+          },
+          breakpoints: {
+            375: {
+                slidesPerView: 'auto',
+                centeredSlides: true,
+                spaceBetween: 30,
+            }
+        }
+    })
+    const catalogSwiper4 = new Swiper('.goods-card__img-wrapper--4', {
+        spaceBetween: 20,
+        pagination: {
+            el: '.swiper-pagination',
+          },
+          breakpoints: {
+            375: {
+                slidesPerView: 'auto',
+                centeredSlides: true,
+                spaceBetween: 30,
+            }
+        }
+    })
+    
+    if (window.screen.availWidth > 1023) {
+        const bannerSwiper = new Swiper('.banner-section__container', {
+            pagination: {
+                el: '.swiper-pagination',
+              },
+        });
+    }
+
+    if (document.querySelector('MAIN').classList.contains('page-main--product')) {
+        const productImgSlider = new Swiper('.product__img-list', {
+            slidesPerView: 'auto',
+            breakpoints: {
+                768: {
+                    direction: 'vertical'
+                },
+                1200: {
+                    direction: 'horizontal'
+
+                }
+            }
+        });
+        console.log(111);
+
+        $('.product__img-list img').click(function(e) {
+            const mainImg = e.target.closest('.product__img-section').querySelector('.product__main-img').querySelector('IMG');
+            
+            cardImageClickHandler(e.target, mainImg);
+        })
+    }
+})

@@ -20,39 +20,39 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 ?>
-<div class="orderby-block">
+<ul class="sorting-section__sort-by">
 	<?php
 		switch ($_GET['orderby']) :
 				case 'price_desc' :
-					echo '<a href="?orderby=price_asc" class="sorting-section__item sorting-section__item--current">Цене</a>';
+					echo '<li class="sorting-section__item sorting-section__item--current"><a href="?orderby=price_asc">Цене</a></li>';
 					break;
 				case 'price_asc' :
-					echo '<a href="?orderby=price_desc" class="sorting-section__item sorting-section__item--reverse sorting-section__item--current">Цене</a>';
+					echo '<li class="sorting-section__item sorting-section__item--reverse sorting-section__item--current"><a href="?orderby=price_desc">Цене</a></li>';
 					break;
 				default:
-					echo '<a href="?orderby=price_desc" class="sorting-section__item">Цене</a>';
+					echo '<li class="sorting-section__item"><a href="?orderby=price_desc">Цене</a></li>';
 		endswitch;	
 		
 		switch ($_GET['orderby']) :
 				case 'popularity_desc' :
-					echo '<a href="?orderby=popularity_asc" class="sorting-section__item sorting-section__item--current">По популярности</a>';
+					echo '<li class="sorting-section__item sorting-section__item--current"><a href="?orderby=popularity_asc">По популярности</a></li>';
 					break;
 				case 'popularity_asc' :
-					echo '<a href="?orderby=popularity_desc" class="sorting-section__item sorting-section__item--reverse sorting-section__item--current">По популярности</a>';
+					echo '<li class="sorting-section__item sorting-section__item--reverse sorting-section__item--current"><a href="?orderby=popularity_desc">По популярности</a></li>';
 					break;
 				default:
-					echo '<a href="?orderby=popularity_desc" class="sorting-section__item">По популярности</a>';
+					echo '<li class="sorting-section__item"><a href="?orderby=popularity_desc">По популярности</a></li>';
 		endswitch;	
 		
 		switch ($_GET['orderby']) :
 				case 'discount_desc' :
-					echo '	<a href="?orderby=discount_asc" class="sorting-section__item sorting-section__item--current">Размеру скидки</a>';
+					echo '<li class="sorting-section__item sorting-section__item--current"><a href="?orderby=discount_asc">Размеру скидки</a></li>';
 					break;
 				case 'discount_asc' :
-					echo '<a href="?orderby=discount_desc" class="sorting-section__item sorting-section__item--reverse sorting-section__item--current">Размеру скидки</a>';
+					echo '<li class="sorting-section__item sorting-section__item--reverse sorting-section__item--current"><a href="?orderby=discount_desc">Размеру скидки</a></li>';
 					break;
 				default:
-					echo '<a href="?orderby=discount_desc" class="sorting-section__item">Размеру скидки</a>';
+					echo '<li class="sorting-section__item"><a href="?orderby=discount_desc">Размеру скидки</a></li>';
 		endswitch;		
 	?>   			
-</div>
+</ul>

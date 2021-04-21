@@ -41,6 +41,7 @@ if ( empty( $product ) || ! $product->is_visible() ) {
 	 *
 	 * @hooked woocommerce_show_product_loop_sale_flash - 10
 	 * @hooked woocommerce_template_loop_product_thumbnail - 10
+	 * @hooked woocommerce_template_loop_product_link_close - 12
 	 */
 	do_action( 'woocommerce_before_shop_loop_item_title' );
 	
@@ -50,34 +51,21 @@ if ( empty( $product ) || ! $product->is_visible() ) {
 	 * @hooked woocommerce_template_loop_product_title - 10
 	 */
 	do_action( 'woocommerce_shop_loop_item_title' );
-		/*
-		<div class="good-article__info-wrapper">
-			<h3 class="good-article__title">
-				<a href="#">Наименование товара</a>
-			</h3>
-			<a href="#" class="good-article__price">XXX руб.</a>
-			<button class="good-article__cart" type="button">
-				<svg class="button-icon__icon button-icon__icon--mobile" width="20" height="20">
-					<use xlink:href="img/sprite.svg#Basket_fill">
-				</svg>
-				<span>В корзину</span>
-			</button>
-			<button class="good-article__favorite" type="button">
-				<svg class="button-icon__icon button-icon__icon--mobile" width="20" height="20">
-					<use xlink:href="img/sprite.svg#Favorite">
-				</svg>
-				<span>Добавить в избранное</span>
-			</button>
-			<button class="good-article__close" type="button"><span class="visually-hidden">Закрыть</span></button>
-		</div>*/
 	
-	
+	/**
+	 * Hook: woocommerce_after_shop_loop_item_title.
+	 *
+	 * @hooked woocommerce_template_loop_rating - 5
+	 * @hooked woocommerce_template_loop_price - 10
+	 * @hooked woozzee_wishlist_product_card - 20
+	 * @hooked woozzee_popup_product_card_close - 25
+	 */
+	do_action( 'woocommerce_after_shop_loop_item_title' );
 	
 	/**
 	 * Hook: woocommerce_after_shop_loop_item.
 	 *
-	 * @hooked woocommerce_template_loop_product_link_close - 5
-	 * @hooked woocommerce_template_loop_add_to_cart - 10
+	 * @hooked woozzee_info_wrapper_in_product_archive_end - 12
 	 * @hooked woozzee_article_tag_end - 15
 	 */
 	do_action( 'woocommerce_after_shop_loop_item' );

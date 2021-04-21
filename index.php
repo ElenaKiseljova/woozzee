@@ -563,7 +563,7 @@
                 while( $query->have_posts() ) {
                   $query->the_post();                      
                   ?>
-                    <li class="link-list__item">
+                    <li class="link-list__item link-list__item--hover-shadow">
                       <a href="<?php echo get_permalink(  ); ?>">
                         <?php if (has_post_thumbnail()): ?>
                           <?php the_post_thumbnail(); ?>

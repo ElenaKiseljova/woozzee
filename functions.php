@@ -220,7 +220,7 @@
   	)
   	*/
     //nav-sublist__item
-    if (($args->theme_location == 'top_menu') && ($depth == 0)) {
+    if (($args->theme_location == 'top_menu') && (($depth % 2) == 0)) {
       foreach ( $classes as $key => $class ) {
     		if ( $class == 'menu-item' ) {
     			$classes[ $key ] = 'header-nav__item';
@@ -228,11 +228,13 @@
     			$classes[ $key ] = 'header-nav__item--active';
     		} else if ( $class == 'menu-item-has-children' ) {
     			$classes[ $key ] = 'header-nav__item--sublist header-nav__item--arrow';
-    		} else {
+    		} else if ( $class == 'menu-item-463' ) {
+          $classes[ $key ] = 'header-nav__item--catalog';
+        } else {
           $classes[ $key ] = '';
         }
     	}
-    } else if (($args->theme_location == 'top_menu') && ($depth !== 0)) {
+    } else if (($args->theme_location == 'top_menu') && (($depth % 2) > 0)) {
       foreach ( $classes as $key => $class ) {
     		if ( $class == 'menu-item' ) {
     			$classes[ $key ] = 'nav-sublist__item';
@@ -240,6 +242,8 @@
     			$classes[ $key ] = 'nav-sublist__item--current';
     		} else if ($class == 'menu-item-has-children') {
           $classes[ $key ] = 'nav-sublist__item--arrow';
+        } else {
+          $classes[ $key ] = '';
         }
     	}
     }    
@@ -262,16 +266,12 @@
   add_filter( 'nav_menu_submenu_css_class', 'filter_nav_menu_submenu_css_class', 10, 3 );
   
   function filter_nav_menu_submenu_css_class ( $classes, $args, $depth ){
-    $i = 0;
     foreach ( $classes as $key => $class ) {
-  		if ( $class == 'sub-menu' ) {
-        if ($i == 0) {
-          $classes[ $key ] = 'nav-sublist nav-sublist--catalog';
-        } else {
-          $classes[ $key ] = 'nav-sublist';
-        }
-  			
-  		}
+  		if ( $class == 'sub-menu' && (($depth % 2) == 0) ) {
+        $classes[ $key ] = 'nav-sublist nav-sublist--catalog';  			
+  		} else {
+        $classes[ $key ] = 'header-nav__list';
+      }
   	}
     
   	return $classes;
@@ -295,6 +295,8 @@
     wp_enqueue_script('swiper-script', get_template_directory_uri() . '/assets/js/vendor/swiper-bundle.min.js', $deps = array(), $ver = null, $in_footer = true );
     wp_enqueue_script('woozzee-script', get_template_directory_uri() . '/assets/js/script.min.js', $deps = array('jquery'), $ver = null, $in_footer = true );
     wp_enqueue_script('animation-anchor-script', get_template_directory_uri() . '/assets/js/animation-anchor.js', $deps = array(), $ver = null, $in_footer = true );
+    wp_enqueue_script('shop-per-page-script', get_template_directory_uri() . '/assets/js/shop-per-page.js', $deps = array(), $ver = null, $in_footer = true );
+    wp_enqueue_script('color-filter-script', get_template_directory_uri() . '/assets/js/color-filter.js', $deps = array(), $ver = null, $in_footer = true );
     
     wp_enqueue_script('timer-script', get_template_directory_uri() . '/assets/js/timer.js', $deps = array('jquery'), $ver = null, $in_footer = true );
     wp_enqueue_script('coupon-script', get_template_directory_uri() . '/assets/js/coupon.js', $deps = array('jquery'), $ver = null, $in_footer = true );
@@ -462,10 +464,10 @@
       $image_size_thumb = 'full';
       $icon = false;
       
-      if ( $attachment_ids ) {
-        ?>
-          <ul class="good-article__img-list">
-            <?php 
+      ?>
+        <ul class="good-article__img-list">
+          <?php 
+            if ( $attachment_ids ) {
               $count_image = 1;
               foreach ( $attachment_ids as $attachment_id ) {
                 if ($count_image < 4) :
@@ -479,11 +481,11 @@
                   <?php
                   $count_image++;
                 endif;
-              }
-            ?>
-          </ul>
-        <?php        
-      }
+              }     
+            }
+          ?>
+        </ul>
+      <?php       
     }
     
     // Добавляю Инфо обертку
@@ -512,11 +514,106 @@
       }
     }
     
+    // Удаляю рейтинг
+    
+    remove_action( 'woocommerce_after_shop_loop_item_title', 'woocommerce_template_loop_rating', 5 );
+    
+    // Удаляю стандартный вывод кнопки В корзину
+    remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 10 );
+  
+    // Вывожу после цены
+    add_action( 'woocommerce_after_shop_loop_item_title', 'woocommerce_template_loop_add_to_cart', 15);
+    
+    // Фильтр кнопки "Купить"
+
+    add_filter( 'woocommerce_loop_add_to_cart_link', 'add_to_cart_loop_filter', 10, 3 );
+    function add_to_cart_loop_filter ( $sprintf, $product, $args ) {
+      global $product;
+
+      $icon_add_to_cart = '<svg class="button-icon__icon button-icon__icon--mobile" width="20" height="20">
+        <use xlink:href="' . get_template_directory_uri() . '/assets/img/sprite.svg#Basket_fill">
+      </svg>';
+
+      $text_add_to_cart = '<span>' . $product->add_to_cart_text() . '</span>';
+
+      if( $product->is_type( 'simple' ) ) {
+        $args['class'] = 'good-article__cart add_to_cart_button ajax_add_to_cart';
+        $sprintf = sprintf(
+          '<a href="%s" data-quantity="%s" class="%s" %s>%s %s</a>',
+          esc_url( $product->add_to_cart_url() ),
+          esc_attr( isset( $args['quantity'] ) ? $args['quantity'] : 1 ),
+          esc_attr( isset( $args['class'] ) ? $args['class'] : 'good-article__cart' ),
+          isset( $args['attributes'] ) ? wc_implode_html_attributes( $args['attributes'] ) : '',
+          $icon_add_to_cart,
+          $text_add_to_cart
+        );
+      } else if ($product->is_type( 'variable' )) {
+        $args['class'] = 'good-article__cart product_type_variable add_to_cart_button';
+        $sprintf = sprintf(
+          '<a href="%s" data-quantity="%s" class="%s" %s>%s %s</a>',
+          esc_url( $product->add_to_cart_url() ),
+          esc_attr( isset( $args['quantity'] ) ? $args['quantity'] : 1 ),
+          esc_attr( isset( $args['class'] ) ? $args['class'] : 'good-article__cart' ),
+          isset( $args['attributes'] ) ? wc_implode_html_attributes( $args['attributes'] ) : '',
+          $icon_add_to_cart,
+          $text_add_to_cart
+        );
+      }
+
+      return $sprintf;
+    }
+
+    // Вывожу кнопку Вишлиста
+    add_action( 'woocommerce_after_shop_loop_item_title', 'woozzee_wishlist_product_card', 20);
+    
+    function woozzee_wishlist_product_card () {
+      echo do_shortcode( '[yith_wcwl_add_to_wishlist]' );
+    }
+    
+    // Вывожу кнопку "Закрыть"
+    add_action( 'woocommerce_after_shop_loop_item_title', 'woozzee_popup_product_card_close', 25);
+    
+    function woozzee_popup_product_card_close () {
+      echo '<button class="good-article__close" type="button"><span class="visually-hidden">Закрыть</span></button>';
+    }
+    
+    // Удаляю пагинацию
+    
+    //remove_action( 'woocommerce_after_shop_loop', 'woocommerce_pagination', 10 );
+    
+    // Вывожу пагинацию в топ каталога
+    
+    add_action( 'woozzee_catalog_sort', 'woocommerce_pagination', 10 );
+
+    // Вывожу пагинацию для планшетной версии категории
+    
+    add_action( 'woozzee_tablet_pagination', 'woocommerce_pagination', 5 );
+
+
+    // Удаляю количество найденных товаров и сортировку
+    remove_action( 'woocommerce_before_shop_loop', 'woocommerce_result_count', 20 );
+    remove_action( 'woocommerce_before_shop_loop', 'woocommerce_catalog_ordering', 30 );
+
+    // Вывожу сортировку в Топ каталога
+    
+    add_action( 'woozzee_catalog_sort', 'woozzee_catalog_sort_list', 5 );
+    
+    function woozzee_catalog_sort_list () {
+      ?>
+        <h2 class="sorting-section__title">Сортировать по:</h2>
+      <?php
+      
+      woocommerce_catalog_ordering();
+    }
+    
+    // Вывожу количество найденных товаров и сортировку в Топ каталога
+    
+    add_action( 'woozzee_catalog_sort_after', 'woocommerce_result_count', 5 );
     
     // Удаляет название страницы
 
     add_filter( 'woocommerce_show_page_title', 'wc_hide_title' );
-
+    
     function wc_hide_title ($show) {
       $show = false;
 
@@ -613,28 +710,36 @@
     add_action( 'woozzee_header_catalog', 'woozzee_catalog_banner', 20 );
 
     function woozzee_catalog_banner () {
+      global $wp_query;
+      $cat = $wp_query->get_queried_object();
+      $termID = $cat->term_id; //динамическое получение ID текущей рубрики
+      $taxonomyName = 'product_cat';
+      $termchildren = get_term_children( $termID, $taxonomyName );
+
+      if ((count($termchildren) > 0) || is_shop()) {
         $catalog_page_id = get_option( 'woocommerce_shop_page_id' );
         
         if (!$catalog_page_id) {
-        	$catalog_page_id = 24;
+          $catalog_page_id = 24;
         }
         
         $catalog_banner_toggle = get_field( 'catalog_banner_toggle', $catalog_page_id );
-      ?>
-      
-      <?php if (!empty($catalog_banner_toggle) && $catalog_banner_toggle == 'Да'): ?>
-        <div class="catalog-banner">
-          <p class="catalog-banner__title">
-            <?php the_field( 'catalog_banner_title', $catalog_page_id  ); ?>
-          </p>
-          <p class="catalog-banner__text">
-            <?php the_field( 'catalog_banner_text', $catalog_page_id  ); ?>
-          </p> 
-          <button class="catalog-banner__button" type="button">
-            <?php the_field( 'catalog_banner_button', $catalog_page_id  ); ?>
-          </button>      
-        </div>
-      <?php endif;
+        ?>
+        
+        <?php if (!empty($catalog_banner_toggle) && $catalog_banner_toggle == 'Да'): ?>
+          <div class="catalog-banner">
+            <p class="catalog-banner__title">
+              <?php the_field( 'catalog_banner_title', $catalog_page_id  ); ?>
+            </p>
+            <p class="catalog-banner__text">
+              <?php the_field( 'catalog_banner_text', $catalog_page_id  ); ?>
+            </p> 
+            <button class="catalog-banner__button" type="button">
+              <?php the_field( 'catalog_banner_button', $catalog_page_id  ); ?>
+            </button>      
+          </div>
+        <?php endif;
+      }
     }
     
     // Убираю количество товаров в категории из Заголовка
@@ -738,6 +843,7 @@
     add_action( 'woocommerce_product_options_pricing', 'art_woo_add_custom_fields' );
     function art_woo_add_custom_fields() {
     	global $product, $post;
+      
     	echo '<div class="options_group">';// Группировка полей 
       // цифровое поле
         woocommerce_wp_text_input( array(
@@ -760,18 +866,50 @@
     function art_woo_custom_fields_save( $post_id ) {
       $percentage = 0;
       
-      //get the sale price of the product whether it be simple, grouped or variable
-    	$sale_price = get_post_meta( $post_id, '_price', true);
+      $_product = wc_get_product( $post_id );
       
-      if (isset($sale_price)) {
-        //get the regular price of the product, but of a simple product
-      	$regular_price = get_post_meta( $post_id, '_regular_price', true);
+      if ($_product->is_type( 'simple' )) {      
+        $sale_price = $_POST['_sale_price'];
         
-        // рассчитываем процент скидки
-  			$percentage = round(( ( $regular_price - $sale_price ) / $regular_price ) * 100);
-      }
+        if ($sale_price) {
+          $regular_price = $_POST['_regular_price'];
+          
+          // рассчитываем процент скидки
+          $percentage = round(( ( $regular_price - $sale_price ) / $regular_price ) * 100);
+        }
+        
+        update_post_meta( $post_id, '_sale_field', esc_attr( $percentage ) );
+      } elseif( $_product->is_type( 'variable' ) ) {
+        $available_variations = $_product->get_available_variations();
+        
+        if ($available_variations) {
+          // Перебираю все вариации, чтобы найти максимальную скидку и присвоить ее оригинальному Продукту
+          $a = 0;
+          while ($a <= count($available_variations)) {
+            $variation_id = $available_variations[$a]['variation_id']; 
+            
+            $variable_product = new WC_Product_Variation( $variation_id );
+
+            $regular_price = $variable_product->regular_price;
+            $sale_price = $variable_product->sale_price;
+            
+            if ( $regular_price && $sale_price ) {
+              // рассчитываем процент скидки
+              $percentage_new = round(( ( $regular_price - $sale_price ) / $regular_price ) * 100);
+              
+              // если больше - меняем процент
+              if ($percentage_new > $percentage) {
+                $percentage = $percentage_new;
+              }
+            }
+            
+            $a++;
+          }
+        }
+                
+        update_post_meta( $post_id, '_sale_field', esc_attr( $percentage ) );
+      }     
       
-      update_post_meta( $post_id, '_sale_field', esc_attr( $percentage ) );
     }
     
     // Добавление поля для вариативного товара
@@ -810,6 +948,35 @@
        
        update_post_meta( $post_id, '_sale_field', esc_attr( $percentage ) );
     }
+    
+    /* Страница продукта */
+    
+    // Удаляю стандартный вывод Апселов    
+    remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_upsell_display', 15 );
+    // Вывожу после продукта
+    add_action( 'woocommerce_after_single_product', 'woocommerce_upsell_display', 45 );
+    
+    
+    // Удаляю стандартный вывод Сопутствующих    
+    remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20 );
+    // Вывожу после продукта
+    add_action( 'woocommerce_after_single_product', 'woocommerce_output_related_products', 50 );
+    
+    // Вывожу секцию О нас
+    add_action( 'woocommerce_after_single_product', 'woozzee_about_icons_function', 55 );
+    
+    function woozzee_about_icons_function () {
+      get_template_part( 'template-parts/content', 'about-us' );
+    }
+    
+    // Удаляю стандартную скидку
+    
+    remove_action( 'woocommerce_before_single_product_summary', 'woocommerce_show_product_sale_flash', 10 );
+    
+    // Вывожу в слайдер
+    add_action( 'woocommerce_after_images_slider_list', 'woocommerce_show_product_sale_flash', 5 );
+
+
     // Купон на скидку
     
     class woozzee_ajax {

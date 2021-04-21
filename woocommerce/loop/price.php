@@ -23,46 +23,50 @@ global $product;
 
 ?>
 <div class="good-article__price">
-	<?php if ( $product->get_sale_price( $context = 'view' ) ) : ?>
-    <p class="good-article__price--sale">
-      <ins>
-        <span>
-          <?php
-            echo $product->get_sale_price( $context = 'view' );
-          ?>
-        </span>
-        <span>
-          <?php
-            echo get_woocommerce_currency_symbol();
-          ?>
-        </span>
-      </ins>
-      <del>
-        <span>
-          <?php
-            echo $product->get_regular_price( $context = 'view' );
-          ?>
-        </span>
-        <span>
-          <?php
-            echo get_woocommerce_currency_symbol();
-          ?>
-        </span>
-      </del>
-    </p>
-  <?php elseif ( !$product->get_sale_price( $context = 'view' ) && $product->get_price( $context = 'view' ) ) : ?>
-    <p class="good-article__price--regular">
-      <span>
-        <?php
-          echo $product->get_price( $context = 'view' );
-        ?>
-      </span>
-      <span>
-        <?php
-          echo get_woocommerce_currency_symbol();
-        ?>
-      </span>
-    </p>
-  <?php endif; ?>
+	<?php if ( $product->is_type( 'simple' ) ): ?>
+		<?php if ( $product->get_sale_price( $context = 'view' ) ) : ?>
+			<p class="good-article__price--sale">
+				<ins>
+					<span>
+						<?php
+							echo $product->get_sale_price( $context = 'view' );
+						?>
+					</span>
+					<span>
+						<?php
+							echo get_woocommerce_currency_symbol();
+						?>
+					</span>
+				</ins>
+				<del>
+					<span>
+						<?php
+							echo $product->get_regular_price( $context = 'view' );
+						?>
+					</span>
+					<span>
+						<?php
+							echo get_woocommerce_currency_symbol();
+						?>
+					</span>
+				</del>
+			</p>
+		<?php elseif ( !$product->get_sale_price( $context = 'view' ) && $product->get_price( $context = 'view' ) ) : ?>
+			<p class="good-article__price--regular">
+				<span>
+					<?php
+						echo $product->get_price( $context = 'view' );
+					?>
+				</span>
+				<span>
+					<?php
+						echo get_woocommerce_currency_symbol();
+					?>
+				</span>
+			</p>
+		<?php endif; ?>
+	<?php else: ?>
+		<?php echo $product->get_price_html(  ); ?>
+	<?php endif; ?>
 </div>
   

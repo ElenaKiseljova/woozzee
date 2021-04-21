@@ -21,6 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 global $post, $product;
 
+// Массив ИД товаров Новинок
 $latest = array();
 
 $catalog_page_id = get_option( 'woocommerce_shop_page_id' );
@@ -29,80 +30,40 @@ if (!$catalog_page_id) {
 	$catalog_page_id = 24;
 }
 
-$category_name = get_field( 'latest_cat_id', $catalog_page_id );
+$category_id = get_field( 'latest_cat_id', $catalog_page_id );
 
-$category = get_term_by('slug', $category_name, 'product_cat', 'ARRAY_A');
+$category = get_term_by('id', $category_id, 'product_cat', 'ARRAY_A');
 
-if (!empty($category)) {
-	$category_id = $category['term_id'];
+if (!empty($category) && is_array($category)) {
+	$category_slug = $category['slug'];
 	
-	$args = array (
-		'posts_per_page' => -1, 
-		'post_type' => 'product',
-		'post_status' => array( 'publish' ),
-		'tax_query' => array(
-			array (
-				'taxonomy' => 'product_cat',
-				'field'    => 'term_id',
-				'terms'    => array( $category_id ),
-			),
-		),
+	$args = array(
+	  'category' => array( $category_slug ),
+		'status' => 'publish',
+		'return' => 'ids',
 	);
 	
-	$query = new WP_Query($args); 
-	 if( $query->have_posts() ) {  
-		 while( $query->have_posts() ) {
-			 $query->the_post(); 
-			 
-			 array_push($latest, get_the_ID());
-		 }        
-	 }
+	$products = wc_get_products( $args );
 	
-	 wp_reset_postdata(); // сброс
+	foreach ($products as $prod) {
+		array_push($latest, $prod);
+	}
+	
+	//var_dump($latest);
 }
 
 $product_id = $product->get_id();
 
 ?>
 <?php 
-	if ( $product->is_on_sale() && !in_array($product_id, $latest) ) { 
-		if( $product->is_type( 'simple' ) ) {
-
-			// a simple product
-			
-			// рассчитываем процент скидки
-			$percentage = round(( ( $product->get_regular_price() - $product->get_sale_price() ) / $product->get_regular_price() ) * 100);
-
-		} elseif( $product->is_type( 'variable' ) ) {
-
-			// a variable product
-			
-			$available_variations = $product->get_available_variations();
-
-			if($available_variations){
-
-				#Step 2: Get product variation id
-				$variation_id=$available_variations[0]['variation_id']; // Getting the variable id of just the 1st product. You can loop $available_variations to get info about each variation.
-
-				#Step 3: Create the variable product object
-				$variable_product1= new WC_Product_Variation( $variation_id );
-
-				#Step 4: You have the data. Have fun :)
-				$regular_price = $variable_product1->regular_price;
-				$sale_price = $variable_product1->sale_price;
-				
-				$percentage = round(( ( $regular_price - $sale_price ) / $regular_price ) * 100);
-			} else {
-				$percentage = 0;
-			}
-
-		}
+	if ( $product->is_on_sale() ) { 
+		$sale_percentage = get_post_meta( $product_id, '_sale_field', true );
 		
-		if (isset($percentage)) {
-			echo apply_filters( 'woocommerce_sale_flash', '<span class="good-article__new good-article__new--sale" style="background-color: #FF4557;">-' . $percentage . '%</span>', $post, $product );
+		if ($sale_percentage) {
+			echo apply_filters( 'woocommerce_sale_flash', '<span class="good-article__new good-article__new--sale" style="background-color: #FF4557;">-' . $sale_percentage . '%</span>', $post, $product );
 		}
-
-	} elseif (in_array($product_id, $latest) && ($product->is_on_sale() || !$product->is_on_sale())) {
+		//var_dump($sale_percentage);
+	} elseif ( in_array($product_id, $latest) && !$product->is_on_sale() ) {
 		echo '<span class="good-article__new good-article__new--latest">' . esc_html__( 'New', 'woozzee' ) . '</span>';
 	}
 

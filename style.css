@@ -303,12 +303,551 @@ Version: 1.0
   transform: rotate(180deg);
 }
 
-/* Меню */
+@media (min-width: 1024px) {
+  .catalog-section .sorting-section__item:not(:last-child) {
+    margin-right: 25px;
+  }
+}
 
+/* Меню */
+/*
 .nav-sublist--catalog {
   width: auto;
 }
 
 .nav-sublist--catalog a {
   white-space: nowrap;
+}*/
+
+/* Купить */
+
+@media (min-width: 768px) {
+  .link-list__item .good-article__cart.add_to_cart_button,
+  .link-list__item:hover .good-article__cart.add_to_cart_button,
+  .good-article--popup .good-article__cart.add_to_cart_button {
+    display: flex;
+    
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .link-list__item .good-article__cart.add_to_cart_button {
+    margin-right: 5px;
+  }
+  
+  .link-list__item:hover .good-article__cart.add_to_cart_button {
+      margin-right: 0;
+  }
+}
+
+/* Цена */
+
+.good-article__price--sale,
+.good-article__price--regular {
+  margin: 0;
+}
+
+.good-article__price--sale ins {
+  text-decoration: none;
+}
+
+/* Вишлист */
+
+.yith-wcwl-add-to-wishlist {
+  display: none;
+}
+.link-list__item .yith-wcwl-add-to-wishlist {
+  margin-top: 0;
+}
+
+@media (min-width: 768px) {
+  .link-list__item .yith-wcwl-add-button a.delete_item {
+    font-size: 0px;
+    line-height: 0px;
+    
+    overflow: hidden;
+  }
+  
+  .link-list__item .yith-wcwl-add-button a.delete_item .yith-wcwl-icon,
+  .link-list__item .add_to_wishlist .yith-wcwl-icon {
+    font-size: 20px;
+    line-height: 20px;
+    
+    color: #FF4557;
+  }
+  
+  .good-article--popup .yith-wcwl-add-to-wishlist {
+    display: flex;
+    
+    justify-content: flex-start;
+    align-items: center;
+  }
+  
+  .link-list__item:hover .yith-wcwl-add-button .delete_item .yith-wcwl-icon,
+  .link-list__item:hover .add_to_wishlist .yith-wcwl-icon,
+  .good-article--popup .yith-wcwl-add-button .delete_item .yith-wcwl-icon,
+  .good-article--popup .add_to_wishlist .yith-wcwl-icon {
+    font-size: 20px;
+    line-height: 20px;
+    
+    color: #FF4557;
+  }
+  
+  .good-article--popup .yith-wcwl-add-to-wishlist {
+    color: rgba(38, 38, 38, 0.5);
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    font-weight: normal;
+    font-size: 14px;
+  }
+  .good-article--popup .yith-wcwl-add-to-wishlist svg {
+    fill: rgba(255, 255, 255, 0);
+    stroke: #FF4557;
+    margin-right: 20px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .yith-wcwl-add-to-wishlist {
+    display: flex;
+    
+    justify-content: flex-start;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+  }
+  .yith-wcwl-add-to-wishlist svg {
+    display: inline;
+    fill: rgba(255, 255, 255, 0);
+  }
+  .yith-wcwl-add-to-wishlist span {
+    overflow: hidden;
+    position: absolute;
+    width: 0;
+    height: 0;
+  }
+  .yith-wcwl-add-to-wishlist svg {
+    stroke: #FF4557;
+  }
+  .yith-wcwl-add-to-wishlist:hover svg {
+    fill: #ff4557;
+  }/*
+  .good-article--popup .yith-wcwl-add-to-wishlist span {
+    overflow: visible;
+    position: static;
+    width: auto;
+    height: auto;
+  }*/
+}
+
+@media (min-width: 1200px) {
+  
+  .link-list__item:hover .good-article {
+    flex-direction: row;
+  }
+  
+  .link-list__item:hover .good-article__info-wrapper {
+    width: 264px;
+    
+    margin-left: auto;
+    margin-right: 0;
+  }
+  
+  .link-list__item:hover .yith-wcwl-add-to-wishlist {
+    display: flex;
+    
+    justify-content: flex-start;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+  }
+  .link-list__item:hover .yith-wcwl-add-to-wishlist svg {
+    display: inline;
+    fill: rgba(255, 255, 255, 0);
+  }
+  .link-list__item:hover .yith-wcwl-add-to-wishlist span {
+    overflow: hidden;
+    position: absolute;
+    width: 0;
+    height: 0;
+  }
+  .link-list__item:hover .yith-wcwl-add-to-wishlist:hover svg {
+    fill: #ff4557;
+  }
+  .link-list__item:hover .yith-wcwl-add-to-wishlist {
+    order: 3;
+    margin-left: 16px;
+  }
+}
+
+/* Пагинация */
+
+.pagination {
+  margin: 0 auto;
+}
+
+.pagination ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.pagination ul li {
+  padding: 0;
+  margin: 0;
+}
+
+.pagination ul li a,
+.pagination ul li span {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-family: Montserrat, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 25px;
+  text-align: center;
+  color: #2230a8;
+}
+
+.pagination ul li span.current {
+  border-radius: 50%;
+  background-color: #2230a8;
+  font-family: Montserrat, sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 25px;
+  text-align: center;
+  color: #ffffff;
+}
+
+.catalog-section .catalog-section__goods-list + .pagination{
+  display: none;
+}
+
+.page-main--catalog-page>.pagination {
+  display: flex;
+}
+
+@media (min-width: 1024px) {  
+  .sorting-section .pagination ul {
+    display: flex;
+    justify-content: flex-start;
+  }
+  .sorting-section .pagination {
+    width: 40%;
+  }
+  .catalog-section .sorting-section .pagination ul {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .catalog-section .sorting-section .pagination {
+    order: 1;
+    width: 100%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .pagination ul li a {
+    font-size: 16px;
+  }
+  
+  .catalog-section .sorting-section .pagination {
+    width: 30%;
+    margin: 0 0 0 auto;
+  }
+}
+
+@media (min-width: 1207px) {
+  .sorting-section .pagination {
+    width: 50%;
+  }
+  .sorting-section .pagination ul {
+    display: flex;
+    justify-content: flex-start;
+  }
+}
+
+/* Количество */
+
+/*
+  * Отсюда для инпутов темы берется инфа 
+  * Woocommerce Products Per Page - плагин
+*/
+.form-wppp-select {
+  display: none;
+}
+
+.sorting-section__cards-amount .amount-products-title {
+  font-family: Montserrat, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 25px;
+  border: none;
+  background-color: transparent;
+  color: #2230a8;
+  margin-right: 13px;
+}
+
+@media (min-width: 768px) {
+  .sorting-section__cards-amount .amount-products-title {
+    font-family: Montserrat, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 25px;
+    color: #2230a8;
+    
+  }
+}
+
+/* Нотисы */
+.list-section__wrapper .woocommerce-notices-wrapper {
+  margin-top: 20px;
+}
+
+/* Фильтры по цвету */
+
+.page-section__popular-queries .wpfFilterWrapper[data-filter-type] {
+  padding: 0;
+  margin: 0;
+}
+
+.page-section__popular-queries .wpfFilterTitle {
+  font-family: Montserrat, sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 45px;
+  text-align: center;
+  color: #28348a;
+  margin: 0 auto;
+  margin-bottom: 20px; 
+}
+
+.popular-queries__wrapper .wpfFilterVerScroll {
+  overflow: visible!important;
+}
+
+.popular-queries__wrapper ul.wpfFilterLayoutHor:not(.wpfButtonsFilter) {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  width: 66.5%;
+  margin: 0 auto
+}
+
+.popular-queries__wrapper .wpfCheckbox {
+  display: none;
+}
+
+.popular-queries__wrapper ul.wpfFilterLayoutHor:not(.wpfButtonsFilter) li {
+  width: 60px;
+  height: 60px;
+  padding: 10px!important;
+  border-radius: 50%;
+  margin: 5px!important;
+}
+
+.popular-queries__wrapper ul.wpfFilterLayoutHor:not(.wpfButtonsFilter) li.active {
+  padding: 8px!important;
+  border: 2px solid #fff;
+}
+
+.popular-queries__wrapper ul.wpfFilterLayoutHor:not(.wpfButtonsFilter) li>label {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #fff;
+}
+
+.popular-queries__wrapper ul.wpfFilterLayoutHor:not(.wpfButtonsFilter) li .wpfDisplay {
+  display: none;
+}
+
+.popular-queries__wrapper ul.wpfFilterLayoutHor:not(.wpfButtonsFilter) li .wpfDisplay .wpfValue {
+  padding: 0!important;
+}
+
+.popular-queries__wrapper ul.wpfFilterLayoutHor:not(.wpfButtonsFilter) li .wpfDisplay .wpfFilterTaxNameWrapper {
+  padding: 0;
+}
+
+.popular-queries__wrapper ul.wpfFilterLayoutHor:not(.wpfButtonsFilter) li[data-term-slug*="zheltyj"] > label{
+  background-color: #fee010;
+}
+
+.popular-queries__wrapper ul.wpfFilterLayoutHor:not(.wpfButtonsFilter) li[data-term-slug*="rozovyj"] > label {
+  background-color: #e99ae1;
+}
+
+.popular-queries__wrapper ul.wpfFilterLayoutHor:not(.wpfButtonsFilter) li[data-term-slug*="belyj"] > label {
+  background-color: #ffffff;
+}
+
+.popular-queries__wrapper ul.wpfFilterLayoutHor:not(.wpfButtonsFilter) li[data-term-slug*="zolotoj"] > label {
+  background-color: #fece87;
+  background-image: linear-gradient(180deg,#fece87 0,#d8a460 100%);
+}
+
+.popular-queries__wrapper ul.wpfFilterLayoutHor:not(.wpfButtonsFilter) li[data-term-slug*="oranzhevyj"] > label {
+  background-color: #ec7b23;
+}
+
+.popular-queries__wrapper ul.wpfFilterLayoutHor:not(.wpfButtonsFilter) li[data-term-slug*="zelenyj"] > label {
+  background-color: #3e9751;
+}
+
+.popular-queries__wrapper ul.wpfFilterLayoutHor:not(.wpfButtonsFilter) li[data-term-slug*="korichnevyj"] > label {
+  background-color: #473434;
+}
+
+.popular-queries__wrapper ul.wpfFilterLayoutHor:not(.wpfButtonsFilter) li[data-term-slug*="krasnyj"] > label {
+  background-color: #f11;
+}
+
+.popular-queries__wrapper ul.wpfFilterLayoutHor:not(.wpfButtonsFilter) li[data-term-slug*="seryj"] > label {
+  background-color: #939393;
+}
+
+.popular-queries__wrapper ul.wpfFilterLayoutHor:not(.wpfButtonsFilter) li[data-term-slug*="fioletovyj"] > label {
+  background-color: #601ca3;
+}
+
+.popular-queries__wrapper ul.wpfFilterLayoutHor:not(.wpfButtonsFilter) li[data-term-slug*="chernyj"] > label {
+  background-color: #000000;
+}    
+
+.popular-queries__wrapper ul.wpfFilterLayoutHor:not(.wpfButtonsFilter) li[data-term-slug*="sinij"] > label {
+  background-color: #0f32ec;
+}
+
+@media (min-width: 768px) {
+  .popular-queries__wrapper ul.wpfFilterLayoutHor:not(.wpfButtonsFilter) {
+    width: 100%;
+    justify-content: center
+  }
+  .popular-queries__wrapper ul.wpfFilterLayoutHor:not(.wpfButtonsFilter) li {
+    padding: 5px;
+    width: auto;
+    min-height: 30px;
+    height: auto;
+    margin: 0 5px 8px 0!important;
+    color: #fff;
+  }
+  
+  .popular-queries__wrapper ul.wpfFilterLayoutHor:not(.wpfButtonsFilter) li.active {
+    border: 2px solid #fff;
+    border-radius: 50px;
+    filter: drop-shadow(0 38px 80px rgba(191,191,191,.07)) drop-shadow(0 24.6296px 46.8519px rgba(131,131,131,.0531481)) drop-shadow(0 14.637px 25.4815px rgba(0,0,0,.0425185)) drop-shadow(0 7.6px 13px rgba(0,0,0,.035)) drop-shadow(0 3.0963px 6.51852px rgba(0,0,0,.0274815)) drop-shadow(0 .7037px 3.14815px rgba(0,0,0,.0168519));
+    background: rgba(255,255,255,.55);
+    -webkit-backdrop-filter: blur(25px);
+    backdrop-filter: blur(25px);
+    padding: 3px;
+  }
+  
+  .popular-queries__wrapper ul.wpfFilterLayoutHor:not(.wpfButtonsFilter) li:hover,
+  .popular-queries__wrapper ul.wpfFilterLayoutHor:not(.wpfButtonsFilter) li:focus {
+    border-radius: 50px;
+    filter: drop-shadow(0 38px 80px rgba(191,191,191,.07)) drop-shadow(0 24.6296px 46.8519px rgba(131,131,131,.0531481)) drop-shadow(0 14.637px 25.4815px rgba(0,0,0,.0425185)) drop-shadow(0 7.6px 13px rgba(0,0,0,.035)) drop-shadow(0 3.0963px 6.51852px rgba(0,0,0,.0274815)) drop-shadow(0 .7037px 3.14815px rgba(0,0,0,.0168519));
+  }
+  
+  .popular-queries__wrapper ul.wpfFilterLayoutHor:not(.wpfButtonsFilter) li .wpfDisplay {
+    display: inline;
+  }
+  .popular-queries__wrapper ul.wpfFilterLayoutHor:not(.wpfButtonsFilter) li>label {
+    border-radius: 50px;
+    color: inherit;
+    width: auto;
+    padding: 10px 17px;
+    line-height: 10px;
+  }
+  
+  .popular-queries__wrapper ul.wpfFilterLayoutHor:not(.wpfButtonsFilter) li[data-term-slug*="rozovyj"],
+  .popular-queries__wrapper ul.wpfFilterLayoutHor:not(.wpfButtonsFilter) li[data-term-slug*="belyj"],
+  .popular-queries__wrapper ul.wpfFilterLayoutHor:not(.wpfButtonsFilter) li[data-term-slug*="zheltyj"],
+  .popular-queries__wrapper ul.wpfFilterLayoutHor:not(.wpfButtonsFilter) li[data-term-slug*="zolotoj"],
+  .popular-queries__wrapper ul.wpfFilterLayoutHor:not(.wpfButtonsFilter) li[data-term-slug*="oranzhevyj"] {
+    color: #000000;
+  }
+}
+
+@media (min-width: 1024px) {
+  .page-section__popular-queries .wpfFilterTitle {
+    display: none;
+  }
+  
+  .catalog-section .popular-queries__wrapper ul.wpfFilterLayoutHor:not(.wpfButtonsFilter) {
+    justify-content: flex-start;
+  }
+  
+  .catalog-section .page-section__popular-queries .wpfFilterTitle {
+    display: inline;
+    
+    position: relative;
+    bottom: -54px;
+    
+  }
+  
+  .catalog-section .page-section__popular-queries .wpfFilterTitle .wfpTitle {
+    margin: 0;
+    
+    font-size: 14px;
+    line-height: 25px;
+    font-family: Montserrat,sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    text-align: left;
+    color: #28348a;
+  }
+  
+  .catalog-section .popular-queries__wrapper ul.wpfFilterLayoutHor:not(.wpfButtonsFilter) li:first-child  {
+    margin-left: 85px!important;
+  }
+}
+
+@media (min-width: 1200px) {
+  .popular-queries__wrapper ul.wpfFilterLayoutHor:not(.wpfButtonsFilter) li {
+    min-height: 40px;
+  }
+  .popular-queries__wrapper ul.wpfFilterLayoutHor:not(.wpfButtonsFilter) li>label {
+    font-size: 14px;
+    line-height: 25px;
+    padding: 9px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* Скидка */
+
+.product__main-img {
+  position: relative;
+}
+
+.good-article__new--single {
+  top: 20px;
+  left: 20px;
+  
+  z-index: 2;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  background-color: red;
 }
