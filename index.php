@@ -2,7 +2,13 @@
   get_header(  );
 ?>
 
-<?php if (is_front_page()): ?>
+<?php 
+  /* ID страницы для ACF полей */
+  
+  $id_page = get_the_id();
+?>
+
+<?php if ( is_front_page() ): ?>
   <main class="page-main">
     <section class="page-main__section page-main__section--welcome welcome-section">
       <div class="welcome-section__wrapper">
@@ -624,44 +630,58 @@
       </section>
     <?php endif; ?>
     
-    <section class="page-main__section page-main__section--contact contact-section">
-      <div class="contact-section__wrapper">
-        <h2 class="contact-section__title">
-          <?php the_field( 'contacts_title' ); ?>
-        </h2>
-        <div class="contact-section__form">
-          <?php echo do_shortcode( '[contact-form-7 id="448" title="Напишите нам"]' ); ?>
-        </div>
-        
-        <!-- <form action="" class="contact-section__form">
-          <div class="contact-section__input-wrapper">
-            <input class="contact-section__input" type="text" name="name" placeholder="Ваше имя"> 
-            <input class="contact-section__input" type="email" name="email" placeholder="Ваш e-mail"> 
-            <input class="contact-section__input" type="tel" name="tel" placeholder="Ваш телефон"> 
-            <textarea class="contact-section__input contact-section__input--textarea" placeholder="Ваше сообщение" name="message" id="" cols="30" rows="10">
-            </textarea>
-          </div>
-          <button class="contact-section__submit-button" type="submit">Отправить</button>
-        </form> -->
-        <p class="contact-section__text">
-          Нажимая на кнопку, вы даете согласие<br>на обработку персональных данных<br>и соглашаетесь c <a href="<?php echo get_privacy_policy_url(); ?>">политикой<br>конфиденциальности</a>
-        </p>
-        <p class="contact-section__subtext">
-          <?php the_field( 'contacts_love' ); ?>
-        </p>
-      </div>
-    </section>
+    <?php get_template_part( 'template-parts/contact', 'form' ) ?>
+    
   </main>
+<?php elseif ( is_home() ) : ?>
+  <main class="page-main page-main--blog">
+   <?php get_template_part( 'template-parts/yoast', 'breadcrumbs' ); ?>
+   
+   <section class="page-main__section page-main__section--articles articles-section">
+      <div class="articles-section__wrapper">
+         <h1 class="articles-section__title visually-hidden">
+           Советы и лайфхаки
+         </h1>
+         
+         <ul class="articles-section__goods-list link-list">
+           <?php
+             if ( have_posts() ){
+               while ( have_posts() ) {
+                 the_post();
+                 
+                 ?>
+                   <li class="link-list__item link-list__item--hover-shadow">
+                      <a href="<?php echo get_permalink(  ); ?>">
+                        <?php if (has_post_thumbnail()): ?>
+                          <?php the_post_thumbnail(); ?>
+                        <?php endif; ?>
+                        
+                        <?php the_title(  ); ?>
+                      </a>
+                   </li>
+                 <?php
+               }
+             } else {
+               get_template_part( 'template-parts/content', 'none' );
+             }
+           ?>           
+         </ul>
+      </div>
+   </section>
+</main>
 <?php else: ?>
   <main class="page-main">
     <div class="page-main__wrapper page-main__wrapper--another">
+      
+      <?php get_template_part( 'template-parts/yoast', 'breadcrumbs' ); ?>
+      
       <h1>
         <?php 
           the_title();
         ?>
       </h1>
       
-      <div class="">
+      <div class="page-main__content page-main__content--inner">
         <?php 
           the_content();
         ?>

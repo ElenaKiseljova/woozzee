@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
               
               itemSortingInput.addEventListener('change', function () {
                 if (itemSortingInput.checked) {
-                  console.log('checked');
+                  //console.log('checked');
                   
                   optionItem.selected = true;
                   

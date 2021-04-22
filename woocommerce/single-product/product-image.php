@@ -53,125 +53,93 @@ $icon = false;
 ?>
 <div class="product__img-section">
   <div class="product__img-list swiper-container">
-  	<div class="swiper-wrapper">
+  	<ul class="swiper-wrapper">
   		<?php
   			if ( $attachment_ids && $post_thumbnail_ids ) {
   				foreach ( $attachment_ids as $attachment_id ) {
   					?>
-  					<div class="product__img-item swiper-slide">
+  					<li class="product__img-item swiper-slide">
   						<?php
   						$image = wp_get_attachment_image(	$attachment_id, $image_size_thumb, $icon );
   						echo $image;
   						?>
-  					</div>
+  					</li>
   					<?php
   				}
 
   				foreach ( $post_thumbnail_ids as $post_thumbnail_id ) {
   					?>
-  					<div class="product__thumb-item swiper-slide">
+  					<li class="product__img-item swiper-slide">
   						<?php
   						$image = wp_get_attachment_image(	$post_thumbnail_id, $image_size_thumb, $icon );
   						echo $image;
   						?>
-  					</div>
+  					</li>
   					<?php
   				}
   			} else if ( $attachment_ids && !$post_thumbnail_ids ) {
   				foreach ( $attachment_ids as $attachment_id ) {
   					?>
-  					<div class="product__thumb-item swiper-slide">
+  					<li class="product__img-item swiper-slide">
   						<?php
   						$image = wp_get_attachment_image(	$attachment_id, $image_size_thumb, $icon );
   						echo $image;
   						?>
-  					</div>
+  					</li>
   					<?php
   				}
   			} else if (!$attachment_ids && $post_thumbnail_ids) {
   				foreach ( $post_thumbnail_ids as $post_thumbnail_id ) {
   					?>
-  					<div class="product__thumb-item swiper-slide">
+  					<li class="product__img-item swiper-slide">
   						<?php
   						$image = wp_get_attachment_image(	$post_thumbnail_id, $image_size_thumb, $icon );
   						echo $image;
   						?>
-  					</div>
+  					</li>
   					<?php
   				}
   			} else {
   				?>
-  				<div class="product__thumb-item swiper-slide">
+  				<li class="product__img-item swiper-slide">
   					<?php
   					$html = sprintf( '<img src="%s" alt="%s" />', esc_url( wc_placeholder_img_src( 'woocommerce_single' ) ), esc_html__( 'Awaiting product image', 'woocommerce' ) );
   					echo $html;
   					?>
-  				</div>
+  				</li>
   				<?php
   			}
   		?>
-  	</div>
+  	</ul>
   </div>
 
-  <div class="product__main-img swiper-container">
-  	<div class="swiper-wrapper">
-  		<?php
-  			if ( $attachment_ids && $post_thumbnail_ids ) {
-  				foreach ( $attachment_ids as $attachment_id ) {
-  					?>
-  					<div class="swiper-slide">
-  						<?php
-  						$image = wp_get_attachment_image(	$attachment_id, $image_size, $icon );
-  						echo $image;
-  						?>
-  					</div>
-  					<?php
-  				}
+  <div class="product__main-img">
+		<?php
+			if ( $attachment_ids && $post_thumbnail_ids ) {
+				foreach ( $attachment_ids as $attachment_id ) {
+					$image = wp_get_attachment_image(	$attachment_id, $image_size, $icon );
+					echo $image;
+				}
 
-  				foreach ( $post_thumbnail_ids as $post_thumbnail_id ) {
-  					?>
-  					<div class="swiper-slide">
-  						<?php
-  						$image = wp_get_attachment_image(	$post_thumbnail_id, $image_size, $icon );
-  						echo $image;
-  						?>
-  					</div>
-  					<?php
-  				}
-  			} else if ( $attachment_ids && !$post_thumbnail_ids ) {
-  				foreach ( $attachment_ids as $attachment_id ) {
-  					?>
-  					<div class="product__item swiper-slide">
-  						<?php
-  						$image = wp_get_attachment_image(	$attachment_id, $image_size, $icon );
-  						echo $image;
-  						?>
-  					</div>
-  					<?php
-  				}
-  			} else if (!$attachment_ids && $post_thumbnail_ids) {
-  				foreach ( $post_thumbnail_ids as $post_thumbnail_id ) {
-  					?>
-  					<div class="product__item swiper-slide">
-  						<?php
-  						$image = wp_get_attachment_image(	$post_thumbnail_id, $image_size, $icon );
-  						echo $image;
-  						?>
-  					</div>
-  					<?php
-  				}
-  			} else {
-  				?>
-  				<div class="product__item swiper-slide">
-  					<?php
-  					$html = sprintf( '<img src="%s" alt="%s" />', esc_url( wc_placeholder_img_src( 'woocommerce_single' ) ), esc_html__( 'Awaiting product image', 'woocommerce' ) );
-  					echo $html;
-  					?>
-  				</div>
-  				<?php
-  			}
-  		?>
-  	</div>
+				foreach ( $post_thumbnail_ids as $post_thumbnail_id ) {
+					$image = wp_get_attachment_image(	$post_thumbnail_id, $image_size, $icon );
+					echo $image;
+				}
+			} else if ( $attachment_ids && !$post_thumbnail_ids ) {
+				foreach ( $attachment_ids as $attachment_id ) {
+					$image = wp_get_attachment_image(	$attachment_id, $image_size, $icon );
+					echo $image;
+				}
+			} else if (!$attachment_ids && $post_thumbnail_ids) {
+				foreach ( $post_thumbnail_ids as $post_thumbnail_id ) {
+					$image = wp_get_attachment_image(	$post_thumbnail_id, $image_size, $icon );
+					echo $image;
+				}
+			} else {
+				$html = sprintf( '<img src="%s" alt="%s" />', esc_url( wc_placeholder_img_src( 'woocommerce_single' ) ), esc_html__( 'Awaiting product image', 'woocommerce' ) );
+				echo $html;
+			}
+		?>
 
     <?php
       /**

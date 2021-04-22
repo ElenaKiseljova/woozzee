@@ -42,27 +42,56 @@ if ( post_password_required() ) {
 		 */
 		do_action( 'woocommerce_before_single_product_summary' );
 		?>
-	</div>
-	
+		
+		<div class="product__info">
+			<?php
+			/**
+			 * Hook: woocommerce_single_product_summary.
+			 *
+			 * @hooked woocommerce_template_single_title - 5
+			 * @hooked woocommerce_template_single_rating - 10
+			 * @hooked woocommerce_template_single_price - 10
+			 * @hooked woocommerce_template_single_excerpt - 20
+			 * @hooked woocommerce_template_single_add_to_cart - 30
+			 * @hooked woocommerce_template_single_meta - 40
+			 * @hooked woocommerce_template_single_sharing - 50
+			 * @hooked WC_Structured_Data::generate_product_data() - 60
+			 */
+			do_action( 'woocommerce_single_product_summary' );
+			?>
+		</div>
+	</div>	
+</section>
 
-	<div class="summary entry-summary">
-		<?php
-		/**
-		 * Hook: woocommerce_single_product_summary.
-		 *
-		 * @hooked woocommerce_template_single_title - 5
-		 * @hooked woocommerce_template_single_rating - 10
-		 * @hooked woocommerce_template_single_price - 10
-		 * @hooked woocommerce_template_single_excerpt - 20
-		 * @hooked woocommerce_template_single_add_to_cart - 30
-		 * @hooked woocommerce_template_single_meta - 40
-		 * @hooked woocommerce_template_single_sharing - 50
-		 * @hooked WC_Structured_Data::generate_product_data() - 60
-		 */
-		do_action( 'woocommerce_single_product_summary' );
-		?>
-	</div>
+<section class="page-section__popular-queries popular-queries">
+		<div class="popular-queries__wrapper">
+				<h2 class="popular-queries__title popular-queries__title--light popular-queries__title--shown-mobile">
+					Популярные запросы каталога:
+				</h2>
+				
+				<ul class="popular-queries__list">
+					<?php 
+						$product_tags = wp_get_post_terms( $product->get_id(), 'product_tag' );
+						
+						foreach ($product_tags as $product_tag) {
+							?>
+								<li class="popular-queries__item">
+									<svg>
+											<use xlink:href="#border"></use>
+									</svg>
 
+									<a href="<?php echo get_term_link( $product_tag->term_id, 'product_tag' ); ?>">
+										<?= $product_tag->name; ?>
+									</a>	
+								</li>
+							<?php
+						}
+					?>
+				</ul>
+		</div>
+</section>
+
+<section class="page-main__section page-main__section--tabs tabs-section tabs-section--border">
 	<?php
 	/**
 	 * Hook: woocommerce_after_single_product_summary.
@@ -74,7 +103,6 @@ if ( post_password_required() ) {
 	do_action( 'woocommerce_after_single_product_summary' );
 	?>
 </section>
-
 
 <?php 
 /**

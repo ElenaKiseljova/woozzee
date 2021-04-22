@@ -117,34 +117,12 @@
                    * Hook: woozzee_catalog_sort_after.
                    *
                    * @hooked woocommerce_result_count - 5
-                   * 
+                   * @hooked amount_products_on_page - 10
                    * 
                    */
                    
                    do_action( 'woozzee_catalog_sort_after' );
-                ?>
-                
-                <span class="amount-products-title">Показать</span>
-                <ul class="sorting-section__amount-list">
-                  <li class="sorting-section__amount-item">
-                    <input class="visually-hidden" type="radio" name="cards-amount" value="28" id="28" checked>
-                    <label for="28">
-                    28
-                    </label>
-                  </li>
-                  <li class="sorting-section__amount-item">
-                    <input class="visually-hidden" type="radio" name="cards-amount" value="50" id="50">
-                    <label for="50">
-                    50
-                    </label>
-                  </li>
-                  <li class="sorting-section__amount-item">
-                    <input class="visually-hidden" type="radio" name="cards-amount" value="100" id="100">
-                    <label for="100">
-                    100
-                    </label>
-                  </li>
-                </ul>
+                ?>                
               </div>
             </div>
           </section>
@@ -239,34 +217,12 @@
                * Hook: woozzee_catalog_sort_after.
                *
                * @hooked woocommerce_result_count - 5
-               * 
+               * @hooked amount_products_on_page - 10
                * 
                */
                
                do_action( 'woozzee_catalog_sort_after' );
             ?>
-            
-            <span class="amount-products-title">Показать</span>
-            <ul class="sorting-section__amount-list">
-              <li class="sorting-section__amount-item">
-                <input class="visually-hidden" type="radio" name="cards-amount" value="28" id="28" checked>
-                <label for="28">
-                28
-                </label>
-              </li>
-              <li class="sorting-section__amount-item">
-                <input class="visually-hidden" type="radio" name="cards-amount" value="50" id="50">
-                <label for="50">
-                50
-                </label>
-              </li>
-              <li class="sorting-section__amount-item">
-                <input class="visually-hidden" type="radio" name="cards-amount" value="100" id="100">
-                <label for="100">
-                100
-                </label>
-              </li>
-            </ul>
           </div>
         </div>
       </section>

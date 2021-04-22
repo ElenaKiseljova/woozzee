@@ -16,9 +16,13 @@ Version: 1.0
 
 /* Контакт-форма */
 
+.wpcf7-form-control-wrap.message textarea {
+  resize: vertical;
+}
+
 #wpcf7-f70-o1,
-#wpcf7-f448-o2,
-#wpcf7-f448-o2 .wpcf7-form-control-wrap {
+#form-bottom,
+#form-bottom .wpcf7-form-control-wrap {
   position: relative;
 }
 
@@ -35,7 +39,7 @@ Version: 1.0
 }
 
 #wpcf7-f70-o1 .callback-form__wrapper .wpcf7-form-control-wrap.phone .wpcf7-not-valid-tip,
-#wpcf7-f448-o2 .wpcf7-not-valid-tip {
+#form-bottom .wpcf7-not-valid-tip {
   position: absolute;
     
   left: 0;
@@ -48,7 +52,7 @@ Version: 1.0
   top: calc(100% + 8px);
 }
 
-#wpcf7-f448-o2 .wpcf7-not-valid-tip {
+#form-bottom .wpcf7-not-valid-tip {
   top: calc(100% - 12px);
 }
 
@@ -61,67 +65,67 @@ Version: 1.0
   max-width: 450px;
 }
 
-#wpcf7-f448-o2 .wpcf7-response-output {    
+#form-bottom .wpcf7-response-output {    
   width: 100%;
   
   margin: 0;
 }
 
-#wpcf7-f448-o2 .wpcf7-form-control-wrap.name-1,
-#wpcf7-f448-o2 .wpcf7-form-control-wrap.email,
-#wpcf7-f448-o2 .wpcf7-form-control-wrap.tel,
-#wpcf7-f448-o2 .wpcf7-form-control-wrap.message {
+#form-bottom .wpcf7-form-control-wrap.name-1,
+#form-bottom .wpcf7-form-control-wrap.email,
+#form-bottom .wpcf7-form-control-wrap.tel,
+#form-bottom .wpcf7-form-control-wrap.message {
   display: flex;
   
   justify-content: center;
   align-items: center;
 }
 
-#wpcf7-f448-o2 .wpcf7-form-control-wrap.name-1 .contact-section__input:nth-child(odd),
-#wpcf7-f448-o2 .wpcf7-form-control-wrap.email .contact-section__input:nth-child(odd),
-#wpcf7-f448-o2 .wpcf7-form-control-wrap.tel .contact-section__input:nth-child(odd),
-#wpcf7-f448-o2 .wpcf7-form-control-wrap.message .contact-section__input:nth-child(odd) {
+#form-bottom .wpcf7-form-control-wrap.name-1 .contact-section__input:nth-child(odd),
+#form-bottom .wpcf7-form-control-wrap.email .contact-section__input:nth-child(odd),
+#form-bottom .wpcf7-form-control-wrap.tel .contact-section__input:nth-child(odd),
+#form-bottom .wpcf7-form-control-wrap.message .contact-section__input:nth-child(odd) {
   width: 100%;
 }
 
 @media (min-width: 768px) {
-  #wpcf7-f448-o2 .wpcf7-form-control-wrap:nth-child(odd) {
+  #form-bottom .wpcf7-form-control-wrap:nth-child(odd) {
     width: 206px;
   }
   
-  #wpcf7-f448-o2 .wpcf7-form-control-wrap.message{
+  #form-bottom .wpcf7-form-control-wrap.message{
     max-width: 100%;
     width: 100%;
   }
   
-  #wpcf7-f448-o2 .wpcf7-response-output {  
+  #form-bottom .wpcf7-response-output {  
     position: absolute;
     
     top: 100%;   
     left: 0;
     
-    margin-top: 60px;
+    margin-top: 120px;
     
     width: 100%;
   }
 }
 
 @media (min-width: 1024px) {
-  #wpcf7-f448-o2 .wpcf7-form-control-wrap:nth-child(odd) {
+  #form-bottom .wpcf7-form-control-wrap:nth-child(odd) {
     width: 232px;
   }
 }
 
 @media (min-width: 1200px) {
-  #wpcf7-f448-o2 .wpcf7-form-control-wrap {
+  #form-bottom .wpcf7-form-control-wrap {
     width: 264px;
   }
   
-  #wpcf7-f448-o2 .wpcf7-form-control-wrap:nth-child(odd) {
+  #form-bottom .wpcf7-form-control-wrap:nth-child(odd) {
     width: 264px;
   }
   
-  #wpcf7-f448-o2 .wpcf7-form-control-wrap.message{
+  #form-bottom .wpcf7-form-control-wrap.message{
     width: 264px;
   }
 }
@@ -319,7 +323,35 @@ Version: 1.0
   white-space: nowrap;
 }*/
 
+/* Количество */
+
+.product__count {
+  display: flex;
+  
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.product__count span {
+  margin-right: 20px;
+}
+
 /* Купить */
+
+.product__cart-button--link {
+  display: flex;
+  
+  justify-content: center;
+  align-items: center;
+}
+
+.product__info .reset_variations {
+  position: absolute;
+}
+
+.woocommerce-variation .product__price {
+  margin-top: 30px;
+}
 
 @media (min-width: 768px) {
   .link-list__item .good-article__cart.add_to_cart_button,
@@ -351,13 +383,107 @@ Version: 1.0
   text-decoration: none;
 }
 
+.product__price del {
+  text-decoration: none;
+  position: relative;
+  margin-right: 25px; 
+}
+
+.product__price del::before {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 2px;
+  background-color: #ff4557;
+  top: 48%; 
+}
+
+.product__price ins {
+  text-decoration: none;
+}
+
+.woocommerce-Price-currencySymbol {
+  margin-left: 5px;
+}
+
+.product__price .woocommerce-Price-currencySymbol {
+  margin-left: 10px;
+}
+
 /* Вишлист */
 
 .yith-wcwl-add-to-wishlist {
   display: none;
 }
-.link-list__item .yith-wcwl-add-to-wishlist {
+
+.product__favorite-button .yith-wcwl-add-to-wishlist {
+  display: flex;
+  
+  justify-content: flex-start;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+}
+
+.link-list__item .yith-wcwl-add-button a.delete_item,
+.product__favorite-button a.delete_item,
+.link-list__item .yith-wcwl-add-button .add_to_wishlist,
+.product__favorite-button .add_to_wishlist {
+  display: flex;
+  
+  justify-content: center;
+  align-items: center;
+}
+
+.link-list__item .yith-wcwl-add-to-wishlist .yith-wcwl-icon,
+.product__favorite-button .yith-wcwl-add-to-wishlist .yith-wcwl-icon {
+  margin: 0;
+}
+
+.link-list__item .yith-wcwl-add-to-wishlist,
+.product__favorite-button .yith-wcwl-add-to-wishlist {
   margin-top: 0;
+}
+
+.link-list__item .yith-wcwl-add-to-wishlist .separator,
+.link-list__item .yith-wcwl-add-to-wishlist .view-wishlist,
+.product__favorite-button .yith-wcwl-add-to-wishlist .separator,
+.product__favorite-button .yith-wcwl-add-to-wishlist .view-wishlist {
+  display: none;
+}
+
+.product__favorite-button .yith-wcwl-add-button a.delete_item,
+.product__favorite-button .yith-wcwl-add-button a.add_to_wishlist  {
+  font-size: 0px;
+  line-height: 0px;
+  
+  overflow: hidden;
+}
+
+.product__favorite-button .yith-wcwl-add-button a.delete_item .yith-wcwl-icon,
+.product__favorite-button .yith-wcwl-add-button .add_to_wishlist .yith-wcwl-icon {
+  font-size: 20px;
+  line-height: 20px;
+  
+  color: #FF4557;
+}
+
+.product__favorite-button .yith-wcwl-add-button:hover a.delete_item .yith-wcwl-icon,
+.product__favorite-button .yith-wcwl-add-button:hover .add_to_wishlist .yith-wcwl-icon {
+  font-size: 20px;
+  line-height: 20px;
+  
+  color: #FF4557;
+}
+
+.product__favorite-button .yith-wcwl-add-to-wishlist {
+  color: rgba(38, 38, 38, 0.5);
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  font-weight: normal;
+  font-size: 14px;
 }
 
 @media (min-width: 768px) {
@@ -376,7 +502,8 @@ Version: 1.0
     color: #FF4557;
   }
   
-  .good-article--popup .yith-wcwl-add-to-wishlist {
+  .good-article--popup .yith-wcwl-add-to-wishlist,
+  .product__favorite-button .yith-wcwl-add-to-wishlist {
     display: flex;
     
     justify-content: flex-start;

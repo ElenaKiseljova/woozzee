@@ -298,6 +298,10 @@
     wp_enqueue_script('shop-per-page-script', get_template_directory_uri() . '/assets/js/shop-per-page.js', $deps = array(), $ver = null, $in_footer = true );
     wp_enqueue_script('color-filter-script', get_template_directory_uri() . '/assets/js/color-filter.js', $deps = array(), $ver = null, $in_footer = true );
     
+    if (is_singular( 'product' )) {
+      wp_enqueue_script('final-price-script', get_template_directory_uri() . '/assets/js/final-price.js', $deps = array(), $ver = null, $in_footer = true );
+    }
+
     wp_enqueue_script('timer-script', get_template_directory_uri() . '/assets/js/timer.js', $deps = array('jquery'), $ver = null, $in_footer = true );
     wp_enqueue_script('coupon-script', get_template_directory_uri() . '/assets/js/coupon.js', $deps = array('jquery'), $ver = null, $in_footer = true );
     
@@ -599,6 +603,9 @@
     add_action( 'woozzee_catalog_sort', 'woozzee_catalog_sort_list', 5 );
     
     function woozzee_catalog_sort_list () {
+      if ( ! wc_get_loop_prop( 'is_paginated' ) || ! woocommerce_products_will_display() ) {
+    		return;
+    	}
       ?>
         <h2 class="sorting-section__title">Сортировать по:</h2>
       <?php
@@ -609,6 +616,40 @@
     // Вывожу количество найденных товаров и сортировку в Топ каталога
     
     add_action( 'woozzee_catalog_sort_after', 'woocommerce_result_count', 5 );
+    
+    // Вывожу количество товаров на странице
+    
+    add_action( 'woozzee_catalog_sort_after', 'amount_products_on_page', 10 );
+    
+    function amount_products_on_page () {
+      if ( ! wc_get_loop_prop( 'is_paginated' ) || ! woocommerce_products_will_display() ) {
+    		return;
+    	}
+      
+      ?>
+        <span class="amount-products-title">Показать</span>
+        <ul class="sorting-section__amount-list">
+          <li class="sorting-section__amount-item">
+            <input class="visually-hidden" type="radio" name="cards-amount" value="28" id="28" checked>
+            <label for="28">
+            28
+            </label>
+          </li>
+          <li class="sorting-section__amount-item">
+            <input class="visually-hidden" type="radio" name="cards-amount" value="50" id="50">
+            <label for="50">
+            50
+            </label>
+          </li>
+          <li class="sorting-section__amount-item">
+            <input class="visually-hidden" type="radio" name="cards-amount" value="100" id="100">
+            <label for="100">
+            100
+            </label>
+          </li>
+        </ul>
+      <?php
+    }
     
     // Удаляет название страницы
 
@@ -950,7 +991,7 @@
     }
     
     /* Страница продукта */
-    
+        
     // Удаляю стандартный вывод Апселов    
     remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_upsell_display', 15 );
     // Вывожу после продукта
@@ -973,10 +1014,67 @@
     
     remove_action( 'woocommerce_before_single_product_summary', 'woocommerce_show_product_sale_flash', 10 );
     
+    // Удаляю тумбнаилы стандартные
+    
+    remove_action( 'woocommerce_product_thumbnails', 'woocommerce_show_product_thumbnails', 20 );
+    
+    
     // Вывожу в слайдер
     add_action( 'woocommerce_after_images_slider_list', 'woocommerce_show_product_sale_flash', 5 );
 
+    // Удаляю заголовки табов
+    
+    add_filter( 'woocommerce_product_additional_information_heading', 'woozzee_remove_tabs_titles_filter' );
+    add_filter( 'woocommerce_product_description_heading', 'woozzee_remove_tabs_titles_filter' );
+    
+    function woozzee_remove_tabs_titles_filter ($heading) {
+      $heading = '';
+      
+      return $heading;
+    }
+    
+    // Кастомные заголовки для табов
+    
+    add_filter( 'woocommerce_product_tabs', 'woo_custom_product_tab' );
+  
+    function woo_custom_product_tab ( $tabs ) {
+      if (!empty($tabs['additional_information'])) {
+        $tabs['additional_information']['title'] = __( 'Характеристики', 'woozzee' );
+        $tabs['additional_information']['priority'] = 1;
+      }
+      
+      if (!empty($tabs['description'])) {
+        $tabs['description']['title'] = __( 'Подходит для', 'woozzee' );
+        $tabs['description']['priority'] = 0;
+      }      
+      
+    	return $tabs;   
+    }
 
+    // Меняю класс для цены
+    
+    
+    add_filter( 'woocommerce_product_price_class', 'filter_single_price_class' );
+    function filter_single_price_class ( $string ){
+    	$string = 'product__price';
+
+    	return $string;
+    }
+    
+    // Изменяю текст кнопки
+    
+    add_filter( 'woocommerce_product_single_add_to_cart_text', 'filter_function_name_8435', 10, 2 );
+    function filter_function_name_8435( $__, $that ){
+    	$__ = __('Добавить В корзину', 'woozzee');
+
+    	return $__;
+    }
+    
+    // Удаляю вывод Мета
+    
+    remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_meta', 40 );
+    
+    
     // Купон на скидку
     
     class woozzee_ajax {

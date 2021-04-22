@@ -68,10 +68,11 @@ const videoInit = function ($) {
 };
 
 const tabsHandler = () => {
-    const tabsButtons = document.querySelectorAll('.tabs-section__item')
-    const tabs = document.querySelectorAll('.tabs-section__goods-list')
+    const tabsButtons = document.querySelectorAll('.tabs-section__item');
+    const tabs = document.querySelectorAll('.tabs-section__goods-list');
 
     if (window.innerWidth >= 768) {
+
         Array.from(tabsButtons).forEach((it, i) => {
             it.querySelector('A').addEventListener( 'click',function(e) {
                 e.preventDefault();
@@ -94,7 +95,7 @@ const tabsHandler = () => {
                 e.preventDefault();
     
                 it.parentNode.classList.toggle('tabs-section__tabs-list--open-mobile');
-
+ 
                 Array.from(tabsButtons).forEach((button, index) => {
                     button.addEventListener('click', function(evt) {
                         Array.from(tabsButtons).forEach((b) => b.classList.remove('tabs-section__item--current'));
@@ -215,18 +216,6 @@ jQuery(document).ready(($) => {
     $('.good-article__info-wrapper button ').click((e) => e.stopPropagation());
     $('.good-article__info-wrapper a ').click((e) => e.stopPropagation());
 
-    $('.product__count button').click(function (e) {
-        const input = document.querySelector('.product__count').querySelector('INPUT');
-        if (e.target.classList.contains('product__count-increment')) {
-            input.value = Number(input.value) + 1;
-        } else {
-            input.value = Number(input.value) - 1;
-        }
-        
-        input.value < 0 ? input.value = 0 : undefined;
-    })  
-
-
     videoInit($);
 
     tabsHandler();
@@ -299,18 +288,29 @@ jQuery(document).ready(($) => {
 
     if (document.querySelector('MAIN').classList.contains('page-main--product')) {
         const productImgSlider = new Swiper('.product__img-list', {
-            slidesPerView: 'auto',
+            
             breakpoints: {
+                320: {
+                    slidesPerView: 4,
+                    spaceBetween: 20, 
+                },
                 768: {
-                    direction: 'vertical'
+                    direction: 'vertical',
+                    slidesPerView: 3,
+                    spaceBetween: 20,
+                },
+                1024: {
+                    spaceBetween: 15,
+                    direction: 'vertical',
+                    slidesPerView: 3,
                 },
                 1200: {
-                    direction: 'horizontal'
-
+                    direction: 'horizontal',
+                    slidesPerView: 3,
+                    spaceBetween: 30
                 }
             }
         });
-        console.log(111);
 
         $('.product__img-list img').click(function(e) {
             const mainImg = e.target.closest('.product__img-section').querySelector('.product__main-img').querySelector('IMG');
