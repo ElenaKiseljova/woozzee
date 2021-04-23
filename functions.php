@@ -320,6 +320,14 @@
     wp_localize_script( 'coupon-script', 'woozzee_ajax', $args);
   }
     
+  // Вункция для Хлебных крошек
+  
+  function woozzee_yoast_breadcrumbs ($class_list) {
+    get_template_part( 'template-parts/yoast', 'breadcrumbs' );
+  }  
+  
+  // Если Вукомерс
+  
   if (class_exists('WooCommerce')) {
     // Генератор ПИН
     
@@ -682,7 +690,11 @@
     add_action( 'woozzee_header_catalog', 'woozzee_catalog_breadcrumbs', 7 );
     
     function woozzee_catalog_breadcrumbs () {
-      get_template_part( 'template-parts/yoast', 'breadcrumbs' );
+      if ( function_exists( 'woozzee_yoast_breadcrumbs' ) ) {
+        $class_breadcrumbs = 'breadcrumbs';
+        
+        woozzee_yoast_breadcrumbs($class_breadcrumbs);
+      }
     }
     
     

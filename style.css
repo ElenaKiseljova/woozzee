@@ -104,7 +104,7 @@ Version: 1.0
     top: 100%;   
     left: 0;
     
-    margin-top: 120px;
+    margin-top: 100px;
     
     width: 100%;
   }
@@ -977,4 +977,66 @@ Version: 1.0
   align-items: center;
   
   background-color: red;
+}
+
+/* Блог */
+
+.page-main__section--single {
+  margin-bottom: 80px;
+}
+
+.articles-section__title--single {
+  font-weight: 600;
+    font-size: 18px;
+    line-height: 130%;
+}
+
+.articles-section__thumbnail {
+  display: flex;
+  
+  justify-content: center;
+  align-items: center;
+  
+  height: 300px;
+  
+  overflow: hidden;
+}
+
+.articles-section__thumbnail img {
+  width: 100%;
+  height: auto;
+}
+
+@media (min-width: 768px) {
+  .articles-section__thumbnail {
+    height: 450px;
+  }
+  
+  .page-main__section--single {
+    margin-bottom: 100px;
+  }
+  
+  .articles-section__title--single {
+    font-weight: 600;
+      font-size: 30px;
+      line-height: 130%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .articles-section__thumbnail {
+    height: 644px;
+  }
+  
+  .page-main__section--single {
+    margin-bottom: 120px;
+  }
+  
+  .articles-section__title--single {
+    margin-top: 80px;
+    
+    font-weight: 600;
+      font-size: 50px;
+      line-height: 130%;
+  }
 }

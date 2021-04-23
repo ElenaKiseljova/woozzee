@@ -321,7 +321,14 @@
 <?php elseif ( is_singular( $post_types = 'product' ) ) : ?>
 
   <main class="page-main page-main--product">   
-    <?php get_template_part( 'template-parts/yoast', 'breadcrumbs' ); ?>
+    <?php 
+      if ( function_exists( 'woozzee_yoast_breadcrumbs' ) ) {
+        $class_breadcrumbs = 'breadcrumbs';
+        
+        woozzee_yoast_breadcrumbs($class_breadcrumbs);
+      }
+    ?>
+    
     <?php
       woocommerce_content();
     ?> 

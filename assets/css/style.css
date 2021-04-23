@@ -2490,7 +2490,7 @@ details {
   .page-main--about-us .hit-section__wrapper {
     background-image: url("../img/mokap-vizitok.png");
     background-repeat: no-repeat;
-    background-position: 0 275px; }
+    background-position: center 275px; }
   .page-main--about-us .hit-section__free {
     font-family: Montserrat, sans-serif;
     font-style: normal;
@@ -3334,6 +3334,8 @@ details {
   color: #262626;
   margin-bottom: 30px;
   margin-top: 15px; }
+  .breadcrumbs--inner {
+    display: none; }
   .breadcrumbs__item {
     margin-right: 10px;
     position: relative; }
@@ -3367,6 +3369,13 @@ details {
 @media (min-width: 1200px) {
   .breadcrumbs {
     grid-column: 2/5; }
+    .breadcrumbs--inner {
+      display: flex;
+      margin-top: 80px;
+      margin-bottom: 70px;
+      padding: 0; }
+    .breadcrumbs--outer {
+      display: none; }
   .page-main--about-us .breadcrumbs {
     width: 1146px;
     margin: 0 auto;
@@ -3374,6 +3383,10 @@ details {
     .page-main--about-us .breadcrumbs a {
       font-size: 16px;
       line-height: 25px; }
+    .page-main--about-us .breadcrumbs--inner {
+      display: flex;
+      margin-top: 80px;
+      margin-bottom: 70px; }
   .page-main--product .breadcrumbs {
     width: 1146px;
     margin: 0 auto;
@@ -4309,7 +4322,9 @@ details {
   .video-section__wrapper video {
     min-height: 440px;
     width: auto;
-    max-width: 100%; }
+    max-width: 100%;
+    -o-object-fit: cover;
+       object-fit: cover; }
 
 .video-section__button {
   position: absolute;
@@ -4354,15 +4369,20 @@ details {
     margin-right: auto; } }
 
 @media (min-width: 1200px) {
-  .video-section__wrapper {
-    width: 100vw;
-    margin: 0;
-    height: 644px;
-    overflow: hidden; }
-    .video-section__wrapper video {
-      position: relative;
-      width: 100%;
-      max-width: unset; } }
+  .video-section {
+    padding-top: 30px; }
+    .video-section__wrapper {
+      width: 100vw;
+      margin: 0;
+      height: 644px;
+      overflow: hidden; }
+      .video-section__wrapper video {
+        position: relative;
+        width: 100%;
+        max-width: unset;
+        max-height: 644px;
+        -o-object-fit: cover;
+           object-fit: cover; } }
 
 .description-section__title {
   font-family: Montserrat, sans-serif;
@@ -4375,33 +4395,91 @@ details {
   margin-bottom: 10px; }
 
 .description-section__text {
-  padding: 10px;
-  padding-top: 280px;
-  background-image: url("../img/rectangle-265.jpg");
-  background-repeat: no-repeat; }
-  .description-section__text--bottom {
-    background-image: url("../img/rectangle-265.jpg"); }
-
-.description-section__desktop-br {
-  display: none; }
-
-@media (min-width: 768px) {
-  .description-section__wrapper {
-    width: 540px;
-    margin: 0 auto; }
-  .description-section__text {
-    background-position: bottom;
-    padding: 10px;
-    padding-bottom: 280px; }
-  .description-section__link {
+  padding: 10px; }
+  .description-section__text h6,
+  .description-section__text h5,
+  .description-section__text h4,
+  .description-section__text h3,
+  .description-section__text h2,
+  .description-section__text h1 {
     font-family: Montserrat, sans-serif;
     font-style: normal;
     font-weight: 600;
     font-size: 14px;
-    line-height: 25px;
+    line-height: 24px;
+    color: #262626;
+    display: block;
+    margin-bottom: 10px; }
+
+.description-section__img-list {
+  list-style: none;
+  margin: 0;
+  padding: 0; }
+
+.description-section__img-wrapper {
+  display: none;
+  width: 320px;
+  height: 250px;
+  margin: 0 auto;
+  overflow: hidden; }
+  .description-section__img-wrapper:first-child {
+    display: block; }
+  .description-section__img-wrapper img {
+    max-height: 100%;
+    -o-object-fit: cover;
+       object-fit: cover; }
+
+.description-section__desktop-br {
+  display: none; }
+
+.page-main__content--about-3 {
+  display: flex;
+  flex-direction: column-reverse; }
+  .page-main__content--about-3 .description-section__text h6,
+  .page-main__content--about-3 .description-section__text h5,
+  .page-main__content--about-3 .description-section__text h4,
+  .page-main__content--about-3 .description-section__text h3,
+  .page-main__content--about-3 .description-section__text h2,
+  .page-main__content--about-3 .description-section__text h1 {
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    /* or 150% */
     display: flex;
     align-items: center;
-    color: #2230a8; } }
+    color: #2230a8; }
+
+@media (min-width: 768px) {
+  .description-section__wrapper {
+    width: 540px;
+    margin: 0 auto;
+    padding-bottom: 70px; }
+  .description-section__text {
+    background-position: bottom;
+    padding: 10px; }
+    .description-section__text a {
+      font-family: Montserrat, sans-serif;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 25px;
+      display: flex;
+      align-items: center;
+      color: #2230a8; }
+  .description-section__img-wrapper {
+    width: 354px;
+    height: 254px; }
+    .description-section__img-wrapper--tall {
+      width: 540px;
+      height: 346px; }
+  .page-main__content--about-3 {
+    width: 540px;
+    margin: 0 auto;
+    flex-direction: column; }
+    .page-main__content--about-3 .description-section__text {
+      margin-bottom: 70px; } }
 
 @media (min-width: 1024px) {
   .description-section {
@@ -4411,22 +4489,39 @@ details {
       margin: 0 auto; }
     .description-section__text {
       padding: 0;
-      padding-right: 336px;
-      background-position: right;
       margin-bottom: 50px;
-      background-image: url("../img/rectangle-263.png");
       display: flex;
       flex-direction: column;
       justify-content: center;
       min-height: 230px; }
-      .description-section__text--bottom {
-        padding: 0;
-        padding-left: 420px;
-        background-image: url("../img/rectangle-2621.png");
-        background-position: left;
-        min-height: 400px; }
-    .description-section__link {
-      display: inline; } }
+      .description-section__text a {
+        display: inline; }
+  .page-main__content--about-1 {
+    display: flex; }
+    .page-main__content--about-1 .description-section__img-wrapper {
+      width: 316px;
+      height: 230px; }
+    .page-main__content--about-1 .description-section__text {
+      width: 484px;
+      margin-right: 20px; }
+  .page-main__content--about-2 {
+    display: flex;
+    flex-direction: row-reverse; }
+    .page-main__content--about-2 .description-section__img-wrapper {
+      width: 400px;
+      height: 400px;
+      margin-right: 20px; }
+    .page-main__content--about-2 .description-section__text {
+      width: 484px;
+      align-self: center; }
+  .page-main__content--about-3 {
+    display: flex;
+    flex-direction: column;
+    width: 820px;
+    padding-top: 100px; }
+    .page-main__content--about-3 .description-section__img-wrapper {
+      height: 441px;
+      width: 652px; } }
 
 @media (min-width: 1200px) {
   .description-section {
@@ -4439,24 +4534,71 @@ details {
     .description-section__text {
       margin: 0;
       padding: 0;
-      padding-top: 280px;
-      padding-right: 700px;
-      padding-bottom: 110px;
-      background-position: 50% 0, 100% 130px, 570px 360px;
       margin-bottom: 50px;
-      background-image: url("../img/image-32.png"), url("../img/image-33.png"), url("../img/image-34.png");
-      display: block;
-      min-height: 453px; }
-      .description-section__text--bottom {
-        padding: 0;
-        padding-top: 140px;
-        padding-left: 656px;
-        background-image: url("../img/rectangle-2622.png");
-        background-position: left;
-        min-height: 558px; }
-    .description-section__link {
-      display: inline;
-      width: 200px; } }
+      display: flex;
+      align-items: center;
+      min-height: 453px;
+      width: 429px; }
+      .description-section__text a {
+        display: inline;
+        width: 200px; }
+    .description-section__img-list {
+      display: flex;
+      flex-direction: column;
+      height: 500px;
+      flex-wrap: wrap;
+      width: 550px; }
+    .description-section__img-wrapper {
+      display: block; }
+      .description-section__img-wrapper:first-child {
+        width: 267px;
+        height: 213px; }
+      .description-section__img-wrapper:nth-child(2) {
+        width: 227px;
+        height: 223px;
+        margin-left: auto;
+        margin-right: 0; }
+      .description-section__img-wrapper:nth-child(3) {
+        width: 335px;
+        height: 453px;
+        margin-left: 30px; }
+  .page-main__content--about-1 .description-section__text {
+    width: 429px;
+    margin-right: 120px; }
+  .page-main__content--about-2 {
+    justify-content: flex-end; }
+    .page-main__content--about-2 .description-section__img-list {
+      margin-right: 100px; }
+    .page-main__content--about-2 .description-section__img-wrapper {
+      width: 558px;
+      height: 432px; }
+    .page-main__content--about-2 .description-section__text {
+      align-items: start; }
+  .page-main__content--about-3 {
+    flex-direction: row;
+    align-items: center;
+    width: 1146px; }
+    .page-main__content--about-3 .description-section__img-wrapper {
+      width: 460px;
+      height: 558px; }
+    .page-main__content--about-3 .description-section__text {
+      width: 656px;
+      align-items: flex-start; }
+      .page-main__content--about-3 .description-section__text h6,
+      .page-main__content--about-3 .description-section__text h5,
+      .page-main__content--about-3 .description-section__text h4,
+      .page-main__content--about-3 .description-section__text h3,
+      .page-main__content--about-3 .description-section__text h2,
+      .page-main__content--about-3 .description-section__text h1 {
+        font-family: Montserrat, sans-serif;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 24px;
+        line-height: 40px;
+        /* or 167% */
+        display: flex;
+        align-items: center;
+        color: #2230a8; } }
 
 .text-block__wrapper {
   background-image: url("../img/rectangle-265.jpg");

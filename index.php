@@ -8,7 +8,7 @@
   $id_page = get_the_id();
 ?>
 
-<?php if ( is_front_page() ): ?>
+<?php if ( is_front_page() && !is_home() ): ?>
   <main class="page-main">
     <section class="page-main__section page-main__section--welcome welcome-section">
       <div class="welcome-section__wrapper">
@@ -633,11 +633,17 @@
     <?php get_template_part( 'template-parts/contact', 'form' ) ?>
     
   </main>
-<?php elseif ( is_home() ) : ?>
+<?php elseif ( !is_front_page() && is_home() ) : ?>
   <main class="page-main page-main--blog">
-   <?php get_template_part( 'template-parts/yoast', 'breadcrumbs' ); ?>
+    <?php 
+      if ( function_exists( 'woozzee_yoast_breadcrumbs' ) ) {
+        $class_breadcrumbs = 'breadcrumbs';
+        
+        woozzee_yoast_breadcrumbs($class_breadcrumbs);
+      }
+    ?>
    
-   <section class="page-main__section page-main__section--articles articles-section">
+    <section class="page-main__section page-main__section--articles articles-section">
       <div class="articles-section__wrapper">
          <h1 class="articles-section__title visually-hidden">
            Советы и лайфхаки
@@ -667,21 +673,26 @@
            ?>           
          </ul>
       </div>
-   </section>
-</main>
+    </section>
+  </main>
 <?php else: ?>
   <main class="page-main">
     <div class="page-main__wrapper page-main__wrapper--another">
+      <?php 
+        if ( function_exists( 'woozzee_yoast_breadcrumbs' ) ) {
+          $class_breadcrumbs = 'breadcrumbs';
+          
+          woozzee_yoast_breadcrumbs($class_breadcrumbs);
+        }
+      ?>
       
-      <?php get_template_part( 'template-parts/yoast', 'breadcrumbs' ); ?>
-      
-      <h1>
+      <h1 class="visually-hidden">
         <?php 
           the_title();
         ?>
       </h1>
       
-      <div class="page-main__content page-main__content--inner">
+      <div class="page-info__text">
         <?php 
           the_content();
         ?>

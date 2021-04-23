@@ -15,15 +15,29 @@
 ?>
 
 <main class="page-main page-main--about-us">
+  <?php 
+    if ( function_exists( 'woozzee_yoast_breadcrumbs' ) ) {
+      $class_breadcrumbs = 'breadcrumbs breadcrumbs--outer';
+      
+      woozzee_yoast_breadcrumbs($class_breadcrumbs);
+    }
+  ?>
+  
   <section class="page-main__section page-main__section--page-info page-info page-info--payment">
     <div class="page-info__wrapper">
       <h1 class="visually-hidden">
         <?php the_title(); ?>
       </h1>
       
-      <?php get_template_part( 'template-parts/yoast', 'breadcrumbs' ); ?>
+      <?php 
+        if ( function_exists( 'woozzee_yoast_breadcrumbs' ) ) {
+          $class_breadcrumbs = 'breadcrumbs breadcrumbs--inner';
+          
+          woozzee_yoast_breadcrumbs($class_breadcrumbs);
+        }
+      ?>
       
-      <div class="page-main__content page-main__content--inner">
+      <div class="page-info__text">
         <?php 
           the_content(  );
         ?>
