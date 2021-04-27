@@ -294,9 +294,11 @@
                   ?>
                     <li class="link-list__item">
                       <a href="<?php echo get_permalink(  ); ?>">
-                        <?php if (has_post_thumbnail()): ?>
-                          <?php the_post_thumbnail(); ?>
-                        <?php endif; ?>
+                        <div class="link-list__img-wrapper">
+                          <?php if (has_post_thumbnail()): ?>
+                            <?php the_post_thumbnail(); ?>
+                          <?php endif; ?>
+                        </div>
                         
                         <?php the_title(); ?>
                       </a>

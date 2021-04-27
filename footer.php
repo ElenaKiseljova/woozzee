@@ -30,24 +30,6 @@
               )
             );
           ?>
-          <!-- <ul class="page-footer__list">
-            <li class="page-footer__list-item"><a href="#">Наклейки</a></li>
-            <li class="page-footer__list-item"><a href="#">Картины</a></li>
-            <li class="page-footer__list-item"><a href="#">Календари</a></li>
-            <li class="page-footer__list-item"><a href="#">Плакаты/постеры</a></li>
-            <li class="page-footer__list-item"><a href="#">Раскраски</a></li>
-            <li class="page-footer__list-item"><a href="#">Открытки</a></li>
-            <li class="page-footer__list-item"><a href="#">Таблички</a></li>
-          </ul>
-          <ul class="page-footer__list">
-            <li class="page-footer__list-item"><a href="#">О нас</a></li>
-            <li class="page-footer__list-item"><a href="#">Каталог</a></li>
-            <li class="page-footer__list-item"><a href="#">Оплата и доставка</a></li>
-            <li class="page-footer__list-item"><a href="#">Советы и лайфхаки</a></li>
-            <li class="page-footer__list-item"><a href="#">Заказать эксклюзив</a></li>
-            <li class="page-footer__list-item"><a href="#">Сотрудничество</a></li>
-            <li class="page-footer__list-item"><a href="#">Контакты</a></li>
-          </ul> -->
           
           <div class="page-footer__contacts">
             
@@ -219,9 +201,21 @@
         <rect class="rect1" x="5%" y="5%" width="93%" height="90%" rx="12%"/>
       </g>
     </svg>
-
-    <!-- <script src="js/vendor/jquery-3.6.0.min.js"></script><script src="js/vendor/swiper-bundle.min.js"></script><script type="text/javascript" src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script><script src="js/script.min.js"></script> -->
     
+    <section class="popup popup--contact">
+      <div class="popup__contact">
+        <?php 
+          echo do_shortcode( '[contact-form-7 id="722" title="Попап"]' );        
+        ?>
+      </div>
+      
+      <button class="popup__close popup__close--contact" type="button" name="close-search">
+        <span class="visually-hidden">Закрыть</span>
+      </button>
+    </section>
+    
+    <div class="popup__overlay"></div>
+
     <?php
       wp_footer();
     ?>

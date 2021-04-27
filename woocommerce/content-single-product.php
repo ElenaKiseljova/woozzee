@@ -64,31 +64,32 @@ if ( post_password_required() ) {
 </section>
 
 <section class="page-section__popular-queries popular-queries">
-		<div class="popular-queries__wrapper">
-				<h2 class="popular-queries__title popular-queries__title--light popular-queries__title--shown-mobile">
-					Популярные запросы каталога:
-				</h2>
-				
-				<ul class="popular-queries__list">
-					<?php 
-						$product_tags = wp_get_post_terms( $product->get_id(), 'product_tag' );
-						
-						foreach ($product_tags as $product_tag) {
-							?>
-								<li class="popular-queries__item">
-									<svg>
-											<use xlink:href="#border"></use>
-									</svg>
-
-									<a href="<?php echo get_term_link( $product_tag->term_id, 'product_tag' ); ?>">
-										<?= $product_tag->name; ?>
-									</a>	
-								</li>
-							<?php
-						}
-					?>
-				</ul>
-		</div>
+  <div class="popular-queries__wrapper">
+    <?php 
+      $product_tags = wp_get_post_terms( $product->get_id(), 'product_tag' );
+      ?>
+    <?php if (!empty($product_tags)): ?>
+    <h2 class="popular-queries__title popular-queries__title--light popular-queries__title--shown-mobile">
+      Популярные запросы каталога:
+    </h2>
+    <ul class="popular-queries__list">
+      <?php 
+        foreach ($product_tags as $product_tag) {
+        	?>
+      <li class="popular-queries__item">
+        <svg>
+          <use xlink:href="#border"></use>
+        </svg>
+        <a href="<?php echo get_term_link( $product_tag->term_id, 'product_tag' ); ?>">
+        <?= $product_tag->name; ?>
+        </a>	
+      </li>
+      <?php
+        }
+        ?>
+    </ul>
+    <?php endif; ?>				
+  </div>
 </section>
 
 <section class="page-main__section page-main__section--tabs tabs-section tabs-section--border">

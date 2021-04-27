@@ -12,6 +12,8 @@
       $class_section = 'page-main__section page-main__section--contact contact-section';
     } else if( is_page_template( 'page-about-us.php' ) ) {
       $class_section = 'page-main__section page-main__section--contact contact-section';
+    } else if( is_page_template( 'page-exclusive.php' ) ) {
+      $class_section = 'page-main__section page-main__section--contact contact-section';
     }
   ?>
   <section class="<?= $class_section; ?>">

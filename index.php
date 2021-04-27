@@ -220,26 +220,32 @@
     <?php if (!empty($popularity_toggle) && $popularity_toggle == 'Да'): ?>
       <section class="page-main__section page-main__section--popular popular-section">
         <div class="popular-section__wrapper">
-          <?php 
-            $popularity_array_category = get_field( 'popularity_array_category' );
+          <?php
+            $locations = get_nav_menu_locations();
+          
+            if( isset( $locations['categories_cyan_menu'] ) ) {
+            	$all_categories = wp_get_nav_menu_items( $locations['categories_cyan_menu'], [
+              	'output_key'  => 'menu_order',
+              ] );
+            } 
           ?>
-          <?php if (!empty($popularity_array_category)): ?>
+          <?php if (!empty($all_categories)): ?>
             <ul class="popular-section__goods-list link-list">
-              <?php foreach ($popularity_array_category as $popularity_category): ?>
+              <?php foreach ($all_categories as $cat): ?>
                 <?php
                   // Для получения ссылки на картинку
-                  $thumbnail_id = get_woocommerce_term_meta( $popularity_category->term_id, 'thumbnail_id', true );
+                  $thumbnail_id = get_woocommerce_term_meta( $cat->object_id, 'thumbnail_id', true );
                   $thumbnail_src = wp_get_attachment_url( $thumbnail_id );
                 ?>
                 <li class="link-list__item link-list__item--bold">
-                  <a href="<?php echo get_term_link($popularity_category->slug, 'product_cat'); ?>">                  
+                  <a href="<?= $cat->url; ?>">                  
                     <?php if (!empty($thumbnail_src)): ?>
-                      <img src="<?php echo $thumbnail_src; ?>" alt="<?= $popularity_category->name; ?>">                           
+                      <img src="<?php echo $thumbnail_src; ?>" alt="<?= $cat->title; ?>">                           
                     <?php else: ?>
-                      <img src="<?php echo wc_placeholder_img_src(); ?>" alt="<?= $popularity_category->name; ?>">                             
+                      <img src="<?php echo wc_placeholder_img_src(); ?>" alt="<?= $cat->title; ?>">                             
                     <?php endif; ?>
                     
-                    <?= $popularity_category->name; ?>
+                    <?= $cat->title; ?>
                   </a>
                  </li>
               <?php endforeach; ?>
@@ -571,9 +577,11 @@
                   ?>
                     <li class="link-list__item link-list__item--hover-shadow">
                       <a href="<?php echo get_permalink(  ); ?>">
-                        <?php if (has_post_thumbnail()): ?>
-                          <?php the_post_thumbnail(); ?>
-                        <?php endif; ?>
+                        <div class="link-list__img-wrapper">
+                          <?php if (has_post_thumbnail()): ?>
+                            <?php the_post_thumbnail(); ?>
+                          <?php endif; ?>
+                        </div>                        
                         
                         <?php the_title(); ?>
                       </a>
@@ -675,6 +683,13 @@
       </div>
     </section>
   </main>
+<?php elseif (is_checkout()): ?>
+  <main class="page-main page-main--contact">
+    
+    <div class="page-main__wrapper page-main__wrapper--another">
+      <?php the_content(  ); ?>
+    </div>
+  </main>
 <?php else: ?>
   <main class="page-main">
     <div class="page-main__wrapper page-main__wrapper--another">
@@ -686,7 +701,7 @@
         }
       ?>
       
-      <h1 class="visually-hidden">
+      <h1>
         <?php 
           the_title();
         ?>

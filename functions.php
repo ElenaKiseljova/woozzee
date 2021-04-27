@@ -14,6 +14,10 @@
       register_nav_menu( 'bottom_menu_left', 'Навигация в подвале сайта ( левый столбец )' );
       register_nav_menu( 'bottom_menu_right', 'Навигация в подвале сайта ( правый столбец )' );
       
+      register_nav_menu( 'categories_sidebar_menu', 'Список категорий для отображения в боковой панели слева в Каталоге и на Главной' );
+      register_nav_menu( 'categories_cards_menu', 'Список категорий для отображения в карточках на Главной' );
+      register_nav_menu( 'categories_cyan_menu', 'Список категорий для отображения под бирюзовым слайдером на Главной' );
+      
       // WooCommerce support.
       add_theme_support('woocommerce');
 
@@ -294,6 +298,7 @@
     wp_enqueue_script( 'mask-script', get_template_directory_uri() . '/assets/js/vendor/jquery.inputmask.bundle.js', $deps = array('jquery'), $ver = false, $in_footer = true );
     wp_enqueue_script('swiper-script', get_template_directory_uri() . '/assets/js/vendor/swiper-bundle.min.js', $deps = array(), $ver = null, $in_footer = true );
     wp_enqueue_script('woozzee-script', get_template_directory_uri() . '/assets/js/script.min.js', $deps = array('jquery'), $ver = null, $in_footer = true );
+    wp_enqueue_script('popup-script', get_template_directory_uri() . '/assets/js/popup.js', $deps = array(), $ver = null, $in_footer = true );  
     wp_enqueue_script('animation-anchor-script', get_template_directory_uri() . '/assets/js/animation-anchor.js', $deps = array(), $ver = null, $in_footer = true );
     wp_enqueue_script('shop-per-page-script', get_template_directory_uri() . '/assets/js/shop-per-page.js', $deps = array(), $ver = null, $in_footer = true );
     wp_enqueue_script('color-filter-script', get_template_directory_uri() . '/assets/js/color-filter.js', $deps = array(), $ver = null, $in_footer = true );
@@ -476,10 +481,10 @@
       $image_size_thumb = 'full';
       $icon = false;
       
-      ?>
-        <ul class="good-article__img-list">
-          <?php 
-            if ( $attachment_ids ) {
+      if ( $attachment_ids ) {
+        ?>
+          <ul class="good-article__img-list">
+            <?php
               $count_image = 1;
               foreach ( $attachment_ids as $attachment_id ) {
                 if ($count_image < 4) :
@@ -493,11 +498,11 @@
                   <?php
                   $count_image++;
                 endif;
-              }     
-            }
-          ?>
-        </ul>
-      <?php       
+              } 
+            ?>
+          </ul>
+        <?php    
+      }      
     }
     
     // Добавляю Инфо обертку
@@ -546,7 +551,7 @@
         <use xlink:href="' . get_template_directory_uri() . '/assets/img/sprite.svg#Basket_fill">
       </svg>';
 
-      $text_add_to_cart = '<span>' . $product->add_to_cart_text() . '</span>';
+      $text_add_to_cart = '<span class="start-state">' . $product->add_to_cart_text() . '</span>' . '<span class="final-state">' . __('В корзине', 'woozzee') . '</span>';
 
       if( $product->is_type( 'simple' ) ) {
         $args['class'] = 'good-article__cart add_to_cart_button ajax_add_to_cart';
@@ -687,16 +692,17 @@
       get_template_part( 'template-parts/category', 'list' );
     }
     
-    add_action( 'woozzee_header_catalog', 'woozzee_catalog_breadcrumbs', 7 );
     
-    function woozzee_catalog_breadcrumbs () {
+    // Хлебные крошки в каталоге
+    add_action( 'woozzee_header_catalog', 'woozzee_catalog_breadcrumbs', 7, 1 );
+    
+    $class_breadcrumbs = 'breadcrumbs';
+    
+    function woozzee_catalog_breadcrumbs ($class_breadcrumbs) {
       if ( function_exists( 'woozzee_yoast_breadcrumbs' ) ) {
-        $class_breadcrumbs = 'breadcrumbs';
-        
         woozzee_yoast_breadcrumbs($class_breadcrumbs);
       }
-    }
-    
+    }    
     
     // Удаляем стандартный вывод
 
@@ -787,7 +793,7 @@
             <p class="catalog-banner__text">
               <?php the_field( 'catalog_banner_text', $catalog_page_id  ); ?>
             </p> 
-            <button class="catalog-banner__button" type="button">
+            <button class="catalog-banner__button openpopup" data-popup="contact" type="button">
               <?php the_field( 'catalog_banner_button', $catalog_page_id  ); ?>
             </button>      
           </div>
@@ -1086,6 +1092,64 @@
     
     remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_meta', 40 );
     
+    // Количество товаров в корзине ( ajax добавление )
+
+    if (!function_exists('woozzee_mini_cart')) {
+
+      function woozzee_mini_cart () {
+        ?>
+
+        <span class="my-basket__count">
+          <?php echo wp_kses_data(WC()->cart->get_cart_contents_count()); ?>
+        </span>
+
+        <?php
+      }
+    }
+    
+    add_filter( 'woocommerce_add_to_cart_fragments', 'wc_refresh_mini_cart_count');
+
+    function wc_refresh_mini_cart_count ($fragments) {
+      ob_start();
+
+      woozzee_mini_cart();
+
+      $fragments['.my-basket__count'] = ob_get_clean();
+
+      return $fragments;
+    }
+
+    // Billing fields
+
+    add_filter( 'woocommerce_billing_fields', 'custom_billing_fields' );
+
+    function custom_billing_fields ( $fields ) {
+      if ( is_checkout() ) {
+        // Unset
+        
+        unset( $fields[ 'billing_state' ] );
+        unset( $fields[ 'billing_address_2' ] );
+        unset( $fields[ 'billing_company' ] );
+      }
+
+      return $fields;
+    }
+
+    // Sipping fields
+
+    add_filter( 'woocommerce_shipping_fields', 'custom_shipping_fields' );
+
+    function custom_shipping_fields ( $fields ) {
+      if ( is_checkout() ) {
+        // Unset
+        
+        unset( $fields[ 'shipping_state' ] );
+        unset( $fields[ 'shipping_address_2' ] );
+        unset( $fields[ 'shipping_company' ] );
+      }
+
+      return $fields;
+    }
     
     // Купон на скидку
     
@@ -1104,9 +1168,20 @@
             $id=$wpdb->get_var($wpdb->prepare("SELECT ID FROM {$wpdb->prefix}subscribers WHERE email=%s",array('email'=>$sanitized_a)));            
             
             if (is_null($id)) {
+              $email = $sanitized_a;
+              
+              $subject = 'Спасибо за подписку!';
+              
+              $site_name = get_bloginfo( 'name' );
+              
+              $message = "Уважаемый гость! \r\nМы рады, что Вы подписались на наши новости!\r\nРады будем видеть вас в числе любимых гостей и постоянных клиентов на нашем сайте " . $site_name;
+              
+              $final_text = 'Поздравляем! Вы успешно подписаны на новости нашего сайта.';
+              
+              if ($sale !== 0) {
                 $coupon_code = 'PP' . generatePIN(6) ; // Code
-                $email = $sanitized_a;
                 $subject = 'Ваш купон на скидку';
+                
                 $amount = $sale; // Amount
                 $discount_type = 'percent'; // Type: fixed_cart, percent, fixed_product, percent_product
 
@@ -1130,18 +1205,25 @@
                 update_post_meta( $new_coupon_id, 'expiry_date', strtotime("+2 week") );
                 update_post_meta( $new_coupon_id, 'customer_email', $email );
 
-                $site_name = get_bloginfo( 'name' );
-                
                 $message = "Уважаемый гость! \r\nМы рады, что Вы успели получить свой код на скидку!\r\nСпешите воспользовать Вашим купоном! Срок его действия истекает через 7 дней. \r\n\r\nВаш личный купон на " . $sale . "% скидку:  " . $coupon_code. " \r\n\r\nЧтобы воспользоваться скидкой, введите промокод в поле «купон» в корзине при заказе на сайте. \r\nРады будем видеть вас в числе любимых гостей и постоянных клиентов на нашем сайте " . $site_name;
-                $headers = 'From: '. get_option('admin_email') . "\r\n" .
-                    'Reply-To: ' . get_option('admin_email') . "\r\n";
-                $sent = wp_mail($email, $subject, strip_tags($message), $headers);    
+              
+                $final_text = 'Купон успешно отправлен! Проверьте свою почту.';
+              }
+                
+              $headers = 'From: '. get_option('admin_email') . "\r\n" .
+                         'Reply-To: ' . get_option('admin_email') . "\r\n";
+              $sent = wp_mail($email, $subject, strip_tags($message), $headers);    
 
 
-                $wpdb->insert($wpdb->prefix."subscribers",array('email'=>$sanitized_a,'datetime'=>current_time('mysql')));
-                echo "Купон успешно отправлен! Проверьте свою почту.";
+              $wpdb->insert($wpdb->prefix."subscribers",array('email'=>$sanitized_a,'datetime'=>current_time('mysql')));
+              
+              echo $final_text;
             } else {
-              echo "Купон уже был отправлен на данный e-mail.";
+              if ($sale !== 0) {
+                echo "Купон уже был отправлен на данный e-mail.";
+              } else {
+                echo "Данный e-mail уже подписан.";
+              }              
             }
           }          
         } else{

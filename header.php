@@ -31,7 +31,7 @@
       $contacts_page_id = 7;
     ?>
     
-    <header class="page-header">
+    <header class="page-header <?php if(is_cart()) echo 'cart-page'; ?>">
       <div class="page-header__top-wrapper">
         <a class="page-header__logo header-logo" href="<?php echo bloginfo( 'url' ); ?>">
           <?php 
@@ -59,15 +59,6 @@
           <span class="visually-hidden">Меню</span>
         </button>
         <?php get_search_form(); ?>
-        <!-- <form class="page-header__search" action="" method="get">
-          <input type="text" name="search" placeholder="Поиск"> 
-          <button type="submit">
-            <svg width="17" height="16">
-              <use xlink:href="<?php echo get_template_directory_uri(); ?>/assets/img/sprite.svg#Search_alt"></use>
-            </svg>
-            <span class="visually-hidden">Поиск</span>
-          </button>
-        </form> -->
         
         <?php 
           $phone_header = get_field( 'contacts_phone_header', $contacts_page_id );
@@ -79,15 +70,6 @@
           </a> 
         <?php endif; ?>
         
-        <!-- <button class="button-icon button-icon--fav" type="button">
-          <svg class="button-icon__icon button-icon__icon--mobile" width="20" height="20">
-            <use xlink:href="<?php echo get_template_directory_uri(); ?>/assets/img/sprite.svg#Favorite"></use>
-          </svg>
-          <svg class="button-icon__icon button-icon__icon--desktop" width="20" height="20">
-            <use xlink:href="<?php echo get_template_directory_uri(); ?>/assets/img/sprite.svg#Favorite_fill"></use>
-          </svg>
-          <span class="visually-hidden">Понравилось</span>
-        </button> -->
         <a href="<?php echo bloginfo( 'url' ); ?>/wishlist" class="button-icon button-icon--fav">
           <svg class="button-icon__icon button-icon__icon--mobile" width="20" height="20">
             <use xlink:href="<?php echo get_template_directory_uri(); ?>/assets/img/sprite.svg#Favorite"></use>
@@ -106,8 +88,15 @@
             <use xlink:href="<?php echo get_template_directory_uri(); ?>/assets/img/sprite.svg#Basket_fill"></use>
           </svg>
           <span class="visually-hidden">Корзина</span>
+          <?php
+            if (function_exists('woozzee_mini_cart')) {
+              woozzee_mini_cart();
+            }
+          ?>
         </a>
-        <a href="<?php echo bloginfo( 'url' ); ?>/#wpcf7-f70-o1" class="page-header__call-button <?php if(is_front_page()) echo 'page-header__call-button--main'; ?>">Обратный звонок</a>
+        <button data-popup="contact" class="page-header__call-button openpopup <?php if(is_front_page()) echo 'page-header__call-button--main'; ?>">
+          Обратный звонок
+        </button>
       </div>
       <nav class="page-header__nav header-nav">
         <?php
@@ -120,61 +109,6 @@
             )
           );
         ?>
-        <!-- <ul class="header-nav__list">
-          <li class="header-nav__item header-nav__item--active header-nav__item--sublist">
-            <svg width="24" height="24">
-              <use xlink:href="<?php echo get_template_directory_uri(); ?>/assets/img/sprite.svg#grid"></use>
-            </svg>
-            <a href="#">Каталог</a>
-            <ul class="nav-sublist nav-sublist--catalog">
-              <li class="nav-sublist__item"><a href="#">Наклейки</a></li>
-              <li class="nav-sublist__item"><a href="#">Картины</a></li>
-              <li class="nav-sublist__item"><a href="#">Календари</a></li>
-            </ul>
-          </li>
-          <li class="header-nav__item">
-            <svg width="24" height="24">
-              <use xlink:href="<?php echo get_template_directory_uri(); ?>/assets/img/sprite.svg#people"></use>
-            </svg>
-            <a href="#">О нас</a>
-          </li>
-          <li class="header-nav__item header-nav__item--sublist header-nav__item--arrow">
-            <svg width="24" height="24">
-              <use xlink:href="<?php echo get_template_directory_uri(); ?>/assets/img/sprite.svg#transport"></use>
-            </svg>
-            <a href="#">Оплата и доставка</a>
-            <ul class="nav-sublist">
-              <li class="nav-sublist__item"><a href="#">Доставка</a></li>
-              <li class="nav-sublist__item"><a href="#">Оплата</a></li>
-              <li class="nav-sublist__item"><a href="#">Возврат</a></li>
-              <li class="nav-sublist__item"><a href="#">Соглашения</a></li>
-            </ul>
-          </li>
-          <li class="header-nav__item">
-            <svg width="24" height="24">
-              <use xlink:href="<?php echo get_template_directory_uri(); ?>/assets/img/sprite.svg#lightbulb"></use>
-            </svg>
-            <a href="#">Советы и лайфхаки</a>
-          </li>
-          <li class="header-nav__item">
-            <svg width="24" height="24">
-              <use xlink:href="<?php echo get_template_directory_uri(); ?>/assets/img/sprite.svg#extension"></use>
-            </svg>
-            <a href="#">Эксклюзив</a>
-          </li>
-          <li class="header-nav__item">
-            <svg width="24" height="24">
-              <use xlink:href="<?php echo get_template_directory_uri(); ?>/assets/img/sprite.svg#support"></use>
-            </svg>
-            <a href="#">Юридическим лицам</a>
-          </li>
-          <li class="header-nav__item">
-            <svg width="24" height="24">
-              <use xlink:href="<?php echo get_template_directory_uri(); ?>/assets/img/sprite.svg#envelope-alt"></use>
-            </svg>
-            <a href="#">Контакты</a>
-          </li>
-        </ul> -->
       </nav>
     </header>
     
