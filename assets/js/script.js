@@ -228,7 +228,12 @@ jQuery(document).ready(($) => {
     });
 
     $('.good-article__info-wrapper button ').click((e) => e.stopPropagation());
-    $('.good-article__img-wrapper a').click((e) => e.stopPropagation());
+    $('.good-article__info-wrapper .good-article__price ').click((e) => e.stopPropagation());
+    $('.good-article__info-wrapper .good-article__title ').click((e) => e.stopPropagation());
+
+    
+    
+    
 
     videoInit($);
 

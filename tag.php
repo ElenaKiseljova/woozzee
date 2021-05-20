@@ -23,17 +23,7 @@
              while ( have_posts() ) {
                the_post();
                
-               ?>
-                 <li class="link-list__item link-list__item--hover-shadow">
-                    <a href="<?php echo get_permalink(  ); ?>">
-                      <?php if (has_post_thumbnail()): ?>
-                        <?php the_post_thumbnail(); ?>
-                      <?php endif; ?>
-                      
-                      <?php the_title(  ); ?>
-                    </a>
-                 </li>
-               <?php
+               get_template_part( 'template-parts/content', 'post' );
              }
            } else {
              get_template_part( 'template-parts/content', 'none' );

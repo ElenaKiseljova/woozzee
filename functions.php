@@ -750,7 +750,7 @@
     		if ( $shop_page ) {
     			$description = wc_format_content( wp_kses_post( $shop_page->post_content ) );
     			if ( $description ) {
-    				echo '<div class="catalog-article catalog-article--shop">' . $description . '<button class="catalog-article__button" type="button"> Читать полностью</button></div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+    				echo '<div class="catalog-article catalog-article--shop"><div class="catalog-article__text">' . $description . '</div><button class="catalog-article__button" type="button"> Читать полностью</button></div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
     			}
     		}
     	}
@@ -759,7 +759,7 @@
         $term = get_queried_object();
 
         if ( $term && ! empty( $term->description ) ) {
-          echo '<div class="catalog-article catalog-article--category">' . wc_format_content( wp_kses_post( $term->description ) ) . '<button class="catalog-article__button" type="button"> Читать полностью</button></div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+          echo '<div class="catalog-article catalog-article--shop"><div class="catalog-article__text">' . wc_format_content( wp_kses_post( $term->description ) ) . '</div><button class="catalog-article__button" type="button"> Читать полностью</button></div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         }
       }   
     }

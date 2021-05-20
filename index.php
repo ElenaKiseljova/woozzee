@@ -573,20 +573,9 @@
               $query = new WP_Query( $args );
               if( $query->have_posts() ) {
                 while( $query->have_posts() ) {
-                  $query->the_post();                      
-                  ?>
-                    <li class="link-list__item link-list__item--hover-shadow">
-                      <a href="<?php echo get_permalink(  ); ?>">
-                        <div class="link-list__img-wrapper">
-                          <?php if (has_post_thumbnail()): ?>
-                            <?php the_post_thumbnail(); ?>
-                          <?php endif; ?>
-                        </div>                        
-                        
-                        <?php the_title(); ?>
-                      </a>
-                    </li>
-                  <?php 
+                  $query->the_post();             
+                           
+                  get_template_part( 'template-parts/content', 'post' );
                 }
               } else {
                 get_template_part( 'template-parts/content', 'none' );
@@ -663,17 +652,7 @@
                while ( have_posts() ) {
                  the_post();
                  
-                 ?>
-                   <li class="link-list__item link-list__item--hover-shadow">
-                      <a href="<?php echo get_permalink(  ); ?>">
-                        <?php if (has_post_thumbnail()): ?>
-                          <?php the_post_thumbnail(); ?>
-                        <?php endif; ?>
-                        
-                        <?php the_title(  ); ?>
-                      </a>
-                   </li>
-                 <?php
+                 get_template_part( 'template-parts/content', 'post' );
                }
              } else {
                get_template_part( 'template-parts/content', 'none' );
@@ -707,11 +686,9 @@
         ?>
       </h1>
       
-      <div class="page-info__text">
-        <?php 
-          the_content();
-        ?>
-      </div>
+      <?php 
+        the_content();
+      ?>
       
     </div>    
   </main>

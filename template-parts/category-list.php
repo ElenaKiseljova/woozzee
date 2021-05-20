@@ -40,12 +40,17 @@
             
             if( $sub_cats ) {
               ?>
-                <li class="catalog-section__menu-item">
-                  <a href="<?php echo $cat->url; ?>" class="catalog-section__button catalog-section__button--opened">
-                    <span>
-                      <?php echo $cat->title; ?>
-                    </span>
-                  </a>
+                <li class="catalog-section__menu-item">                  
+                  <div class="catalog-section__button catalog-section__button--opened">
+                      <a href="<?php echo $cat->url; ?>">
+                        <span>
+                          <?php echo $cat->title; ?>
+                        </span>
+                      </a>
+                      <button class="catalog-section__button-element">
+                          <span class="visually-hidden">Меню</span>
+                      </button>
+                  </div>
                   <ul class="catalog-section__sublist">
                     <?php 
                       foreach($sub_cats as $sub_category) : 

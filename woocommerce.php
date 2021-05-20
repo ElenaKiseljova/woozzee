@@ -291,19 +291,8 @@
               if( $query->have_posts() ) {
                 while( $query->have_posts() ) {
                   $query->the_post();                      
-                  ?>
-                    <li class="link-list__item">
-                      <a href="<?php echo get_permalink(  ); ?>">
-                        <div class="link-list__img-wrapper">
-                          <?php if (has_post_thumbnail()): ?>
-                            <?php the_post_thumbnail(); ?>
-                          <?php endif; ?>
-                        </div>
-                        
-                        <?php the_title(); ?>
-                      </a>
-                    </li>
-                  <?php 
+                  
+                  get_template_part( 'template-parts/content', 'post' );
                 }
               } else {
                 get_template_part( 'template-parts/content', 'none' );
