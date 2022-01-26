@@ -206,7 +206,19 @@
         $args->before = '';
       }	
   	}
-
+    
+    if ( $args->theme_location == 'categories_sidebar_menu' ) {
+      if ($depth == 0) {
+        $args->before = '<div class="catalog-section__button catalog-section__button--closed">';
+        $args->after = '<button class="catalog-section__button-element">
+                            <span class="visually-hidden">Меню</span>
+                         </button>
+                       </div>';
+      } else if ($depth == 1) {
+        $args->before = '';
+        $args->after = '';
+      }
+    }
   	return $args;
   }
   
@@ -262,6 +274,25 @@
     	}
     }
     
+    if (($args->theme_location == 'categories_sidebar_menu')) {
+      foreach ( $classes as $key => $class ) {
+    		if ( $class == 'menu-item' ) {
+          if ($depth == 0) {
+            $classes[ $key ] = 'catalog-section__menu-item';
+          } else {
+            $classes[ $key ] = 'catalog-section__item catalog-section__item--sublist';
+          }    			
+    		} else if ($class == 'menu-item-has-children') {
+          if ($depth == 0) {
+            $classes[ $key ] = 'catalog-section__menu-item-has-children';
+          } else {
+            $classes[ $key ] = 'catalog-section__item catalog-section__item--sublist catalog-section__item--arrow';
+          }           
+        } else {
+          $classes[ $key ] = '';
+        }
+    	}
+    }
   	return $classes;
   }
 
@@ -269,14 +300,26 @@
   
   add_filter( 'nav_menu_submenu_css_class', 'filter_nav_menu_submenu_css_class', 10, 3 );
   
-  function filter_nav_menu_submenu_css_class ( $classes, $args, $depth ){
-    foreach ( $classes as $key => $class ) {
-  		if ( $class == 'sub-menu' && (($depth % 2) == 0) ) {
-        $classes[ $key ] = 'nav-sublist nav-sublist--catalog';  			
-  		} else {
-        $classes[ $key ] = 'header-nav__list';
-      }
-  	}
+  function filter_nav_menu_submenu_css_class ( $classes, $args, $depth ) {
+    if ($args->theme_location == 'top_menu') {
+      foreach ( $classes as $key => $class ) {      
+    		if ( ($class == 'sub-menu') && (($depth % 2) == 0) ) {
+          $classes[ $key ] = 'nav-sublist nav-sublist--catalog';  			
+    		} else {
+          $classes[ $key ] = 'header-nav__list';
+        }
+    	}
+    }
+    
+    if ($args->theme_location == 'categories_sidebar_menu') {
+      foreach ( $classes as $key => $class ) {      
+    		if ( $class == 'sub-menu' ) {
+          $classes[ $key ] = 'catalog-section__sublist';  			
+    		} else {
+          $classes[ $key ] = '';
+        }
+    	}
+    }
     
   	return $classes;
   }
@@ -478,7 +521,7 @@
       
       $attachment_ids = $product->get_gallery_image_ids();
       
-      $image_size_thumb = 'full';
+      $image_size_thumb = 'woocommerce_thumbnail';
       $icon = false;
       
       if ( $attachment_ids ) {
@@ -970,6 +1013,17 @@
       }     
       
     }
+    
+    // WP ALL Import
+    // function sale_percentage ( $price_regular = null,  $price_sale = null ) {
+  	// 	$percentage = 0;
+    // 
+  	// 	if ( !empty( $price_regular) && !empty( $price_sale ) ) {
+  	// 		$percentage = round(( ( $price_regular - $price_sale ) / $price_regular ) * 100);
+  	// 	}
+    // 
+  	// 	return $percentage;
+  	// }
     
     // Добавление поля для вариативного товара
     

@@ -20,6 +20,16 @@ Version: 1.0
   z-index: 555;
 }
 
+/* Меню Категорий */
+
+.catalog-section__menu-item .catalog-section__button-element {
+  display: none;
+}
+
+.catalog-section__menu-item.catalog-section__menu-item-has-children .catalog-section__button-element {
+  display: block;
+}
+
 /* Контакт-форма на Контакты */
 
 .contact-section__label span[class*="wpcf7"]::after {
@@ -408,6 +418,12 @@ Version: 1.0
 
 .tabs-section__goods-list--hidden + script + .tabs-section__more-link {
   display: none;
+}
+
+.tabs-section__item--active {
+  display: block;
+  
+  pointer-events: none;
 }
 
 /* Сортировка */
@@ -1034,6 +1050,7 @@ Version: 1.0
 }
 
 .popular-queries__wrapper .wpfFilterVerScroll {
+  max-height: none!important;
   overflow: visible!important;
 }
 
@@ -1045,6 +1062,9 @@ Version: 1.0
   display: flex;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   width: 66.5%;
   margin: 0 auto
 }
@@ -1100,8 +1120,8 @@ Version: 1.0
 
 .popular-queries__wrapper ul.wpfFilterLayoutHor:not(.wpfButtonsFilter) li[data-term-slug*="zolotoj"] > label {
   background-color: #fece87;
-  background-image: -webkit-gradient(linear,left top, left bottom,color-stop(0, #fece87),to(#d8a460));
   background-image: -o-linear-gradient(top,#fece87 0,#d8a460 100%);
+  background-image: -webkit-gradient(linear,left top, left bottom,color-stop(0, #fece87),to(#d8a460));
   background-image: linear-gradient(180deg,#fece87 0,#d8a460 100%);
 }
 
@@ -1760,7 +1780,7 @@ input:checked + .thanks-section__subscribe {
   letter-spacing: 0.05em;
   text-transform: uppercase;
 
-  color: #FFFFFF;
+  color: #FFFFFF!important;
 
   background-color: #2230A8!important;
   

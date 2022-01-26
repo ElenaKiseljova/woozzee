@@ -34,8 +34,10 @@ if ( ! empty( $product_tabs ) ) : ?>
 		<ul class="tabs-section__tabs-list tabs-section__tabs-list--no-margin" role="tablist">
 			<?php $tab_i = 0; ?>
 			<?php foreach ( $product_tabs as $key => $product_tab ) : ?>
-				<?php if ($tab_i == 0): ?>
+				<?php if (($tab_i == 0) && (count($product_tabs) > 1)): ?>
 					<li class="tabs-section__item tabs-section__item--current" id="tab-title-<?php echo esc_attr( $key ); ?>" role="tab" aria-controls="tab-<?php echo esc_attr( $key ); ?>">
+				<?php elseif (($tab_i == 0) && (count($product_tabs) == 1)): ?>
+					<li class="tabs-section__item tabs-section__item--active" id="tab-title-<?php echo esc_attr( $key ); ?>" role="tab" aria-controls="tab-<?php echo esc_attr( $key ); ?>">
 				<?php else : ?>
 					<li class="tabs-section__item" id="tab-title-<?php echo esc_attr( $key ); ?>" role="tab" aria-controls="tab-<?php echo esc_attr( $key ); ?>">
 				<?php endif; ?>
